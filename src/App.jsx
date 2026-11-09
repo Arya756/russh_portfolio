@@ -95,6 +95,9 @@ function SectionScrollEffects() {
   const updateFades = () => {
     const sectionIds = ['home', 'about', 'cv', 'projects', 'contact']
     const windowHeight = window.innerHeight
+    const startThreshold = windowHeight * 0.95
+    const endThreshold = windowHeight * 0.15
+    const distance = startThreshold - endThreshold
 
     for (let i = 0; i < sectionIds.length - 1; i++) {
       const currentEl = document.getElementById(sectionIds[i])
@@ -102,13 +105,32 @@ function SectionScrollEffects() {
       if (!currentEl || !nextEl) continue
 
       const nextRect = nextEl.getBoundingClientRect()
-      // As nextEl scrolls from windowHeight (just visible) to 0 (top of viewport),
-      // currentEl fades out from opacity 1 to 0.
-      const rawProgress = nextRect.top / windowHeight
-      const progress = Math.max(0, Math.min(1, rawProgress))
 
-      currentEl.style.opacity = progress.toFixed(3)
-      currentEl.style.pointerEvents = progress < 0.05 ? 'none' : 'auto'
+      // Faster, responsive blend window
+      const normalized = Math.max(0, Math.min(1, (nextRect.top - endThreshold) / distance))
+      // Eased curve for a seamless dissolved blend into the next section
+      const progress = Math.pow(normalized, 1.4)
+
+      if (progress <= 0.01) {
+        currentEl.style.opacity = '0'
+        currentEl.style.filter = 'none'
+        currentEl.style.transform = 'translate3d(0, -40px, 0)'
+        currentEl.style.pointerEvents = 'none'
+      } else if (progress >= 0.99) {
+        currentEl.style.opacity = '1'
+        currentEl.style.filter = 'none'
+        currentEl.style.transform = 'translate3d(0, 0, 0)'
+        currentEl.style.pointerEvents = 'auto'
+      } else {
+        const opacity = progress.toFixed(3)
+        const blurPx = ((1 - progress) * 8).toFixed(1)
+        const translateY = (-(1 - progress) * 40).toFixed(1)
+
+        currentEl.style.opacity = opacity
+        currentEl.style.filter = `blur(${blurPx}px)`
+        currentEl.style.transform = `translate3d(0, ${translateY}px, 0)`
+        currentEl.style.pointerEvents = 'auto'
+      }
     }
   }
 

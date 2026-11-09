@@ -56,7 +56,7 @@ html.lenis, html.lenis body {
 .sticky-section {
   position: sticky;
   top: min(0px, calc(100vh - 100%));
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 
 .bg-site {
