@@ -161,11 +161,11 @@ export default function App() {
             {/* Name + PORTFOLIO — right-aligned with site gutter */}
             <div className="flex justify-end px-[clamp(2.5rem,8vw,8rem)] pb-4">
               <div className="text-right">
-                <span className="block font-sans text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[0.25em] uppercase text-black">
+                <span className="block font-sans text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[0.25em] uppercase text-[#E4826A]">
                   Ruchita Rani
                 </span>
                 <h1
-                  className="text-[clamp(2.8rem,8vw,8rem)] leading-[0.88] tracking-tight text-ink"
+                  className="text-[clamp(2.8rem,8vw,8rem)] leading-[0.88] tracking-tight text-[#E4826A]"
                   style={{ fontFamily: "'Duality', sans-serif" }}
                 >
                   PORTFOLIO
@@ -186,7 +186,7 @@ export default function App() {
 
             {/* Bottom label — left-aligned with same gutter */}
             <div className="px-[clamp(2.5rem,8vw,8rem)] py-6">
-              <span className="font-sans text-[clamp(1.22rem,1.875vw,1.5rem)] font-semibold tracking-[0.18em] uppercase text-ink">
+              <span className="font-sans text-[clamp(1.22rem,1.875vw,1.5rem)] font-semibold tracking-[0.18em] uppercase text-[#E4826A]">
                 Selected Work 2024–2026
               </span>
             </div>
