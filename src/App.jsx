@@ -294,7 +294,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 justify-items-center mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 justify-items-center mt-8 mb-16">
               {PROJECTS.map((p, i) => (
                 <GlassFolder
                   key={p.title}
