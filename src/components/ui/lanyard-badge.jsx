@@ -654,7 +654,7 @@ export default function LanyardBadge({
           type="button"
           onClick={() => flipRef.current()}
           aria-pressed={showBack}
-          className="absolute right-[clamp(1.25rem,4vw,3.5rem)] top-[clamp(1.5rem,4vw,3.5rem)] z-10 inline-flex items-center gap-2 rounded-full border border-ivory/30 bg-ivory/20 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ivory shadow-sm backdrop-blur-md transition-colors hover:bg-ivory/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ivory"
+          className="absolute right-[clamp(1.25rem,4vw,3.5rem)] top-[clamp(1.5rem,4vw,3.5rem)] z-10 inline-flex items-center gap-2 rounded-full border border-[#35302a]/30 bg-[#35302a]/10 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#35302a] shadow-sm backdrop-blur-md transition-colors hover:bg-[#35302a]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#35302a]"
         >
           <svg viewBox="0 0 24 24" width={14} height={14} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-500 motion-reduce:transition-none" style={{ transform: showBack ? "scaleX(-1)" : "none" }}>
             <path d="M3 12a9 9 0 0 1 15.5-6.2L21 8" />

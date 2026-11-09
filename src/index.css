@@ -25,7 +25,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 body {
   margin: 0;
-  background: #f5f5f5 url('/bg-texture-new.jpg') repeat center/auto fixed;
+  background: #F3AEA8 url('/bg-texture-new.jpg') repeat center/auto fixed;
   color: #35302a;
   font-family: "Jost", system-ui, sans-serif;
   font-weight: 300;
@@ -60,5 +60,5 @@ html.lenis, html.lenis body {
 }
 
 .bg-site {
-  background: #f5f5f5 url('/bg-texture-new.jpg') repeat center/auto fixed;
+  background: #F3AEA8 url('/bg-texture-new.jpg') repeat center/auto fixed;
 }

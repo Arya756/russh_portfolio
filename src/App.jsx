@@ -144,17 +144,17 @@ export default function App() {
             <span className={`absolute left-2 right-2 h-[1.5px] bg-ink transition-all ${menuOpen ? 'top-1/2 rotate-45' : 'top-[1.05rem]'}`}></span>
             <span className={`absolute left-2 right-2 h-[1.5px] bg-ink transition-all ${menuOpen ? 'top-1/2 -rotate-45' : 'top-[1.55rem]'}`}></span>
           </button>
-          <nav className={`fixed inset-0 bg-ivory grid place-items-center transition-all z-[-1] md:static md:bg-transparent md:grid-none md:place-items-start md:z-auto ${menuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible md:opacity-100 md:visible md:pointer-events-auto'}`}>
+          <nav className={`fixed inset-0 bg-ivory grid place-items-center transition-all z-[-1] md:static md:bg-ivory/60 md:backdrop-blur-md md:px-6 md:py-2 md:rounded-full md:border md:border-black/5 md:shadow-xs md:grid-none md:place-items-start md:z-auto ${menuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible md:opacity-100 md:visible md:pointer-events-auto'}`}>
             <ul className="list-none flex flex-col md:flex-row gap-6 md:gap-10 text-center">
               {['Home', 'About', 'CV', 'Projects', 'Contact'].map(l => (
-                <li key={l}><a href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="no-underline text-[0.95rem] tracking-widest hover:text-g2 hover:border-b hover:border-g1 transition-all md:text-base">{l}</a></li>
+                <li key={l}><a href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="no-underline text-[0.95rem] tracking-widest hover:text-black transition-all md:text-base font-medium">{l}</a></li>
               ))}
             </ul>
           </nav>
         </header>
 
         <main>
-          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ padding: 0 }}>
+          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F3AEA8', padding: 0 }}>
             {/* Top spacer */}
             <div className="flex-1" />
 
@@ -165,7 +165,7 @@ export default function App() {
                   Ruchita Rani
                 </span>
                 <h1
-                  className="text-[clamp(2.8rem,8vw,8rem)] leading-[0.88] tracking-tight text-g2"
+                  className="text-[clamp(2.8rem,8vw,8rem)] leading-[0.88] tracking-tight text-ink"
                   style={{ fontFamily: "'Duality', sans-serif" }}
                 >
                   PORTFOLIO
@@ -186,7 +186,7 @@ export default function App() {
 
             {/* Bottom label — left-aligned with same gutter */}
             <div className="px-[clamp(2.5rem,8vw,8rem)] py-6">
-              <span className="font-sans text-[clamp(1.22rem,1.875vw,1.5rem)] font-semibold tracking-[0.18em] uppercase text-g2">
+              <span className="font-sans text-[clamp(1.22rem,1.875vw,1.5rem)] font-semibold tracking-[0.18em] uppercase text-ink">
                 Selected Work 2024–2026
               </span>
             </div>
@@ -194,12 +194,12 @@ export default function App() {
 
           <section
             id="about"
-            className="sticky-section z-10 relative overflow-hidden bg-g2 text-ivory rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.25)] border-t border-white/10 min-h-screen"
-            style={{ backgroundColor: '#576c31', padding: 0 }}
+            className="sticky-section z-10 relative overflow-hidden text-ink rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5 min-h-screen"
+            style={{ backgroundColor: '#B6C4A3', padding: 0 }}
           >
             <div className="absolute left-[clamp(2.5rem,8vw,8rem)] top-[clamp(2.5rem,5vw,4.5rem)] z-10 pointer-events-none max-w-xl md:max-w-2xl">
-              <h2 className="text-[clamp(2rem,5vw,5rem)] text-ivory">About me</h2>
-              <p className="text-ivory/85 text-sm md:text-base mt-2 font-light">
+              <h2 className="text-[clamp(2rem,5vw,5rem)] text-ink">About me</h2>
+              <p className="text-ink/80 text-sm md:text-base mt-2 font-light">
                 Interior architecture student turning ideas into spaces people can use and feel. Drag to swing, tap to flip.
               </p>
             </div>
@@ -213,7 +213,7 @@ export default function App() {
               strapText="turning ideas into spaces"
               strapLabel="RUCHITA RANI · DESIGN 2026"
               strapColor="#35302a"
-              inkColor="#576c31"
+              inkColor="#35302a"
               cardColor="#fbf7ee"
               cardWidth={240}
             />
@@ -221,7 +221,8 @@ export default function App() {
 
           <section
             id="cv"
-            className="sticky-section z-20 bg-site min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
+            className="sticky-section z-20 min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
+            style={{ backgroundColor: '#E2B549' }}
           >
             <div className="flex justify-between items-end flex-wrap gap-6">
               <h2 className="text-[clamp(2rem,5vw,5rem)]">My CV</h2>
@@ -267,15 +268,15 @@ export default function App() {
 
           <section
             id="projects"
-            className="sticky-section z-30 bg-site min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
-            style={{ padding: 'clamp(2.5rem,5vw,4rem) clamp(2.5rem,8vw,8rem)' }}
+            className="sticky-section z-30 min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
+            style={{ backgroundColor: '#E4826A', padding: 'clamp(2.5rem,5vw,4rem) clamp(2.5rem,8vw,8rem)' }}
           >
             <div className="flex justify-between items-end gap-8 flex-wrap">
               <div>
                 <h2 className="text-[clamp(2rem,5vw,5rem)]">Projects</h2>
-                <p className="max-w-[42ch] mt-2 text-mute">Selected academic, competition and exhibition work. Hover to lean a folder, click to explore its sheets.</p>
+                <p className="max-w-[42ch] mt-2 text-ink/80">Selected academic, competition and exhibition work. Hover to lean a folder, click to explore its sheets.</p>
               </div>
-              <p className="font-mono text-xs tracking-widest uppercase text-g2">
+              <p className="font-mono text-xs tracking-widest uppercase text-ink">
                 Hover to lean · Click to open
               </p>
             </div>
@@ -299,16 +300,17 @@ export default function App() {
 
           <section
             id="contact"
-            className="sticky-section z-40 bg-site min-h-screen flex flex-col justify-between rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.22)] border-t border-black/5"
+            className="sticky-section z-40 min-h-screen flex flex-col justify-between rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.22)] border-t border-white/10 text-ivory"
+            style={{ backgroundColor: '#9E6B50' }}
           >
-            <h2 className="text-[clamp(2rem,5vw,5rem)]">Have an idea? Let's create something meaningful.</h2>
+            <h2 className="text-[clamp(2rem,5vw,5rem)] text-ivory">Have an idea? Let's create something meaningful.</h2>
             <div className="mt-8 flex flex-col gap-4">
-              <a href="mailto:ruchitarani99@gmail.com" className="border-b border-sage pb-2 flex justify-between max-w-md"><small className="text-mute">Email</small><span>ruchitarani99@gmail.com</span></a>
-              <a href="tel:+918789473293" className="border-b border-sage pb-2 flex justify-between max-w-md"><small className="text-mute">Phone</small><span>+91 8789473293</span></a>
-              <a href="https://www.behance.net/ruchitarani" target="_blank" rel="noopener" className="border-b border-sage pb-2 flex justify-between max-w-md"><small className="text-mute">Behance</small><span>behance.net/ruchitarani</span></a>
-              <a href="https://www.linkedin.com/" target="_blank" rel="noopener" className="border-b border-sage pb-2 flex justify-between max-w-md"><small className="text-mute">LinkedIn</small><span>Add your profile link</span></a>
+              <a href="mailto:ruchitarani99@gmail.com" className="border-b border-ivory/30 pb-2 flex justify-between max-w-md"><small className="text-ivory/70">Email</small><span>ruchitarani99@gmail.com</span></a>
+              <a href="tel:+918789473293" className="border-b border-ivory/30 pb-2 flex justify-between max-w-md"><small className="text-ivory/70">Phone</small><span>+91 8789473293</span></a>
+              <a href="https://www.behance.net/ruchitarani" target="_blank" rel="noopener" className="border-b border-ivory/30 pb-2 flex justify-between max-w-md"><small className="text-ivory/70">Behance</small><span>behance.net/ruchitarani</span></a>
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener" className="border-b border-ivory/30 pb-2 flex justify-between max-w-md"><small className="text-ivory/70">LinkedIn</small><span>Add your profile link</span></a>
             </div>
-            <footer className="mt-16 flex justify-between text-sm text-mute">
+            <footer className="mt-16 flex justify-between text-sm text-ivory/70">
               <span>Ruchita Rani</span>
               <span>© 2026 Ruchita Rani. All rights reserved.</span>
             </footer>
