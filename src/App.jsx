@@ -78,19 +78,6 @@ const PROJECTS = [
   },
 ]
 
-const CHAPTERS = [
-  ["Project overview", "A smart façade system using modular panels and solar-responsive mechanisms for urban heat and building performance."],
-  ["Design brief", "Add the competition brief here."],
-  ["Research and inspiration", "Add references, case studies and mood boards."],
-  ["Problem identification", "Add the problem you identified."],
-  ["Concept development", "Add how the idea took shape."],
-  ["Design exploration", "Add the options you explored."],
-  ["Sketches and iterations", "Add your sketches and how the design changed."],
-  ["Technical drawings", "Add plans, sections and panel details."],
-  ["Final design and renders", "Add your final renders."],
-  ["Outcome", "Ranked 6th nationally in the Godrej Design Lab Campus Connect competition."],
-]
-
 function SectionScrollEffects() {
   const updateFades = () => {
     const sectionIds = ['home', 'about', 'cv', 'projects', 'contact']
@@ -147,7 +134,6 @@ function SectionScrollEffects() {
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [openChapters, setOpenChapters] = useState(false)
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
       <SectionScrollEffects />
@@ -281,8 +267,8 @@ export default function App() {
 
           <section
             id="projects"
-            className="sticky-section z-30 bg-site min-h-screen rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
-            style={{ padding: 'clamp(2rem,4vw,3.5rem) clamp(2.5rem,8vw,8rem) clamp(6rem,12vw,10rem)' }}
+            className="sticky-section z-30 bg-site min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
+            style={{ padding: 'clamp(2.5rem,5vw,4rem) clamp(2.5rem,8vw,8rem)' }}
           >
             <div className="flex justify-between items-end gap-8 flex-wrap">
               <div>
@@ -294,7 +280,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 justify-items-center mt-8 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-7 justify-items-center mt-6">
               {PROJECTS.map((p, i) => (
                 <GlassFolder
                   key={p.title}
@@ -305,24 +291,10 @@ export default function App() {
                   files={p.files}
                   action="none"
                   appearDelay={i * 90}
-                  width={280}
+                  width={250}
                 />
               ))}
             </div>
-
-            <article id="helioshield" className="mt-20">
-              <h2 className="text-[clamp(2rem,5vw,5rem)]">Helioshield</h2>
-              <p className="font-serif text-[clamp(1.5rem,2.6vw,2.2rem)] leading-[1.3] text-g2 mt-4 max-w-[62ch]">Godrej Design Lab Campus Connect. A smart façade system using modular panels and solar-responsive mechanisms, designed to address urban heat and building performance.</p>
-              <span className="inline-block mt-4 border border-sage px-3 py-1 text-sm">Recognition: 6th rank nationally</span>
-              <button onClick={() => setOpenChapters(!openChapters)} className="btn-outline mt-6">{openChapters ? 'Hide chapters' : 'Show chapters'}</button>
-              {openChapters && (
-                <ol className="mt-8 space-y-4 list-decimal pl-6">
-                  {CHAPTERS.map(([t, d], i) => (
-                    <li key={i}><strong className="font-serif text-g2">{t}</strong><p className="text-mute">{d}</p></li>
-                  ))}
-                </ol>
-              )}
-            </article>
           </section>
 
           <section
