@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { ReactLenis } from 'lenis/react'
+import { useState, useEffect } from 'react'
+import { ReactLenis, useLenis } from 'lenis/react'
 import GlassFolder from './components/ui/glass-folder-cards'
 import LanyardBadge from './components/ui/lanyard-badge'
 
@@ -91,11 +91,48 @@ const CHAPTERS = [
   ["Outcome", "Ranked 6th nationally in the Godrej Design Lab Campus Connect competition."],
 ]
 
+function SectionScrollEffects() {
+  const updateFades = () => {
+    const sectionIds = ['home', 'about', 'cv', 'projects', 'contact']
+    const windowHeight = window.innerHeight
+
+    for (let i = 0; i < sectionIds.length - 1; i++) {
+      const currentEl = document.getElementById(sectionIds[i])
+      const nextEl = document.getElementById(sectionIds[i + 1])
+      if (!currentEl || !nextEl) continue
+
+      const nextRect = nextEl.getBoundingClientRect()
+      // As nextEl scrolls from windowHeight (just visible) to 0 (top of viewport),
+      // currentEl fades out from opacity 1 to 0.
+      const rawProgress = nextRect.top / windowHeight
+      const progress = Math.max(0, Math.min(1, rawProgress))
+
+      currentEl.style.opacity = progress.toFixed(3)
+      currentEl.style.pointerEvents = progress < 0.05 ? 'none' : 'auto'
+    }
+  }
+
+  useLenis(updateFades)
+
+  useEffect(() => {
+    updateFades()
+    window.addEventListener('scroll', updateFades, { passive: true })
+    window.addEventListener('resize', updateFades)
+    return () => {
+      window.removeEventListener('scroll', updateFades)
+      window.removeEventListener('resize', updateFades)
+    }
+  }, [])
+
+  return null
+}
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openChapters, setOpenChapters] = useState(false)
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
+      <SectionScrollEffects />
       <div className="min-h-screen">
         <a href="#about" className="sr-only focus:not-sr-only fixed left-0 top-0 z-[99] bg-g2 text-white px-4 py-2">Skip to content</a>
         <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-end px-[clamp(1.25rem,5vw,5rem)] py-4 pointer-events-none transition-all">
