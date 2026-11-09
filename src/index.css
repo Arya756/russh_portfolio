@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Duality';
+  src: url('/fonts/duality.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-g1: #678539;
+  --color-g2: #576c31;
+  --color-ivory: #fbf7ee;
+  --color-cream: #f3ecdc;
+  --color-beige: #e4d9c1;
+  --color-sage: #a9b98a;
+  --color-ink: #35302a;
+  --color-mute: #6d665a;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+  --font-duality: "Duality", system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  margin: 0;
+  background: #f5f5f5 url('/bg-texture-new.jpg') repeat center/auto fixed;
+  color: #35302a;
+  font-family: "Jost", system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+h1, h2, h3 { font-family: "Duality", "Jost", system-ui, sans-serif; font-weight: normal; line-height: 1.05; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0 0 1em; max-width: 62ch; }
+section { padding: clamp(4rem, 10vw, 8rem) clamp(2.5rem, 8vw, 8rem); position: relative; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid #576c31; outline-offset: 3px; }
+@keyframes drip { to { background-position: 0 -100%; } }
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.sticky-section {
+  position: sticky;
+  top: min(0px, calc(100vh - 100%));
+  will-change: transform;
+}
+
+.bg-site {
+  background: #f5f5f5 url('/bg-texture-new.jpg') repeat center/auto fixed;
+}
