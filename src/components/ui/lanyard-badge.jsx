@@ -300,9 +300,9 @@ export default function LanyardBadge({
       pts = []
       links = []
       const cx = W / 2
-      const spread = Math.min(W * 0.34, Math.max(cw * 1.15, 290))
+      const spread = Math.min(W * 0.26, Math.max(cw * 0.95, 230))
       const top = -sw * 2
-      const bY = buckleY ?? Math.max(H * 0.16, Math.min(H * 0.42, H - (lowLen + ringR * 2 + clipH + ch) - 28))
+      const bY = buckleY ?? Math.max(H * 0.16, Math.min(H * 0.38, H - (lowLen + ringR * 2 + clipH + ch) - 36))
 
       const aL = add(cx - spread, top, 0)
       iB = add(cx, bY, 1.4)

@@ -114,21 +114,17 @@ function SectionScrollEffects() {
       if (progress <= 0.01) {
         currentEl.style.opacity = '0'
         currentEl.style.filter = 'none'
-        currentEl.style.transform = 'translate3d(0, -40px, 0)'
         currentEl.style.pointerEvents = 'none'
       } else if (progress >= 0.99) {
         currentEl.style.opacity = '1'
         currentEl.style.filter = 'none'
-        currentEl.style.transform = 'translate3d(0, 0, 0)'
         currentEl.style.pointerEvents = 'auto'
       } else {
         const opacity = progress.toFixed(3)
-        const blurPx = ((1 - progress) * 8).toFixed(1)
-        const translateY = (-(1 - progress) * 40).toFixed(1)
+        const blurPx = ((1 - progress) * 6).toFixed(1)
 
         currentEl.style.opacity = opacity
-        currentEl.style.filter = `blur(${blurPx}px)`
-        currentEl.style.transform = `translate3d(0, ${translateY}px, 0)`
+        currentEl.style.filter = blurPx > 0.2 ? `blur(${blurPx}px)` : 'none'
         currentEl.style.pointerEvents = 'auto'
       }
     }
@@ -212,7 +208,7 @@ export default function App() {
 
           <section
             id="about"
-            className="sticky-section z-10 relative overflow-hidden bg-g2 text-ivory rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.25)] border-t border-white/10"
+            className="sticky-section z-10 relative overflow-hidden bg-g2 text-ivory rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.25)] border-t border-white/10 min-h-screen"
             style={{ backgroundColor: '#576c31', padding: 0 }}
           >
             <div className="absolute left-[clamp(2.5rem,8vw,8rem)] top-[clamp(2.5rem,5vw,4.5rem)] z-10 pointer-events-none max-w-xl md:max-w-2xl">
@@ -223,7 +219,7 @@ export default function App() {
             </div>
 
             <LanyardBadge
-              height="1100px"
+              height="100vh"
               title="Ruchita Rani"
               subtitle="Interior Architecture · B.Des 2026"
               name="Ruchita Rani"
@@ -233,8 +229,7 @@ export default function App() {
               strapColor="#35302a"
               inkColor="#576c31"
               cardColor="#fbf7ee"
-              cardWidth={310}
-              buckleY={310}
+              cardWidth={240}
             />
           </section>
 
