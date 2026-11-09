@@ -154,7 +154,7 @@ export default function App() {
         </header>
 
         <main>
-          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F3AEA8', padding: 0 }}>
+          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F0889F', padding: 0 }}>
             {/* Top spacer */}
             <div className="flex-1" />
 
@@ -269,7 +269,7 @@ export default function App() {
           <section
             id="projects"
             className="sticky-section z-30 min-h-screen flex flex-col justify-center rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
-            style={{ backgroundColor: '#E4826A', padding: 'clamp(2.5rem,5vw,4rem) clamp(2.5rem,8vw,8rem)' }}
+            style={{ backgroundColor: '#FD892B', padding: 'clamp(2.5rem,5vw,4rem) clamp(2.5rem,8vw,8rem)' }}
           >
             <div className="flex justify-between items-end gap-8 flex-wrap">
               <div>
