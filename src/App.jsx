@@ -282,7 +282,7 @@ export default function App() {
           <section
             id="projects"
             className="sticky-section z-30 bg-site min-h-screen rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
-            style={{ padding: 'clamp(2rem,4vw,3.5rem) clamp(2.5rem,8vw,8rem) clamp(4rem,8vw,6rem)' }}
+            style={{ padding: 'clamp(2rem,4vw,3.5rem) clamp(2.5rem,8vw,8rem) clamp(6rem,12vw,10rem)' }}
           >
             <div className="flex justify-between items-end gap-8 flex-wrap">
               <div>
