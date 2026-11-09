@@ -282,6 +282,7 @@ export default function App() {
           <section
             id="projects"
             className="sticky-section z-30 bg-site min-h-screen rounded-t-2xl md:rounded-t-[2.5rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] border-t border-black/5"
+            style={{ padding: 'clamp(2rem,4vw,3.5rem) clamp(2.5rem,8vw,8rem) clamp(2rem,4vw,3rem)' }}
           >
             <div className="flex justify-between items-end gap-8 flex-wrap">
               <div>
@@ -293,7 +294,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-16 justify-items-center mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-8 justify-items-center mt-8">
               {PROJECTS.map((p, i) => (
                 <GlassFolder
                   key={p.title}
@@ -304,7 +305,7 @@ export default function App() {
                   files={p.files}
                   action="none"
                   appearDelay={i * 90}
-                  width={320}
+                  width={280}
                 />
               ))}
             </div>
