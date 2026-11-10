@@ -154,14 +154,14 @@ export default function App() {
         </header>
 
         <main>
-          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F0889F', padding: 0 }}>
+          <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F7F0E6', padding: 0 }}>
             {/* Top spacer */}
             <div className="flex-1" />
 
             {/* Name + PORTFOLIO — right-aligned with site gutter */}
             <div className="flex justify-end px-[clamp(2.5rem,8vw,8rem)] pb-4">
               <div className="text-right">
-                <span className="block font-sans text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[0.25em] uppercase text-[#E4826A]">
+                <span className="block font-sans text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[0.25em] uppercase text-black">
                   Ruchita Rani
                 </span>
                 <h1
