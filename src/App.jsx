@@ -13,7 +13,7 @@ const PROJECTS = [
       { name: "System Overview", meta: "Façade Mechanism" },
       { name: "Panel Fabrication", meta: "Modular Detail" },
       { name: "Solar Simulation", meta: "Daylight Studies" },
-      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield/board.jpg" },
+      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield/board.png" },
     ],
   },
   {
