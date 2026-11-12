@@ -4,39 +4,39 @@ import GlassFolder from './components/ui/glass-folder-cards'
 import LanyardBadge from './components/ui/lanyard-badge'
 
 const PROJECTS = [
-  { title: "Helioshield", sub: "Godrej Design Lab · 6th rank", art: "blue", seed: 42, files: [
-    { name: "System Overview", meta: "Façade Mechanism", art: "blue", href: "#helioshield" },
-    { name: "Panel Fabrication", meta: "Modular Detail", art: "azure", href: "#helioshield" },
-    { name: "Solar Simulation", meta: "Daylight Studies", art: "cobalt", href: "#helioshield" },
+  { title: "Helioshield", sub: "Godrej Design Lab · 6th rank", art: "none", seed: 42, files: [
+    { name: "System Overview", meta: "Façade Mechanism", href: "#helioshield" },
+    { name: "Panel Fabrication", meta: "Modular Detail", href: "#helioshield" },
+    { name: "Solar Simulation", meta: "Daylight Studies", href: "#helioshield" },
     { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", href: "#helioshield" },
   ]},
-  { title: "Spatial Intervention", sub: "Studio 02 · Academic", art: "azure", seed: 19, files: [
-    { name: "Site Mapping", meta: "Circulation Flow", art: "electric" },
-    { name: "Zoning & Section", meta: "Scale 1:50", art: "sapphire" },
+  { title: "Spatial Intervention", sub: "Studio 02 · Academic", art: "none", seed: 19, files: [
+    { name: "Site Mapping", meta: "Circulation Flow" },
+    { name: "Zoning & Section", meta: "Scale 1:50" },
     { name: "Physical Scale Model", meta: "Basswood & Acrylic" },
     { name: "Studio Review.pdf", meta: "PDF · 5.2 MB" },
   ]},
-  { title: "Adaptive Reuse", sub: "Year 2 · Interior Arch", art: "cobalt", seed: 7, files: [
-    { name: "Heritage Envelope", meta: "Structural Retention", art: "ocean" },
-    { name: "Interior Joinery", meta: "Custom Millwork", art: "blue" },
-    { name: "Atmospheric Lighting", meta: "Lux Calculations", art: "azure" },
+  { title: "Adaptive Reuse", sub: "Year 2 · Interior Arch", art: "none", seed: 7, files: [
+    { name: "Heritage Envelope", meta: "Structural Retention" },
+    { name: "Interior Joinery", meta: "Custom Millwork" },
+    { name: "Atmospheric Lighting", meta: "Lux Calculations" },
     { name: "Material Board", meta: "16 Finishes" },
   ]},
-  { title: "Mio Emotion Fest", sub: "Exhibition & Stall Design", art: "electric", seed: 23, files: [
-    { name: "Stall Spatial Plan", meta: "Visitor Flow", art: "cobalt" },
-    { name: "Visual Identity", meta: "Graphics & Signage", art: "sapphire" },
+  { title: "Mio Emotion Fest", sub: "Exhibition & Stall Design", art: "none", seed: 23, files: [
+    { name: "Stall Spatial Plan", meta: "Visitor Flow" },
+    { name: "Visual Identity", meta: "Graphics & Signage" },
     { name: "Fabrication Specs", meta: "Modular Framing" },
     { name: "Exhibition Renders", meta: "3D View" },
   ]},
-  { title: "Biophilic Sanctuary", sub: "Residential Concept · 2025", art: "sapphire", seed: 88, files: [
-    { name: "Microclimate Court", meta: "Passive Cooling", art: "ocean" },
-    { name: "Custom Earthware", meta: "Artisan Elements", art: "blue" },
-    { name: "Spatial Renders", meta: "Twinmotion 4K", art: "azure" },
+  { title: "Biophilic Sanctuary", sub: "Residential Concept · 2025", art: "none", seed: 88, files: [
+    { name: "Microclimate Court", meta: "Passive Cooling" },
+    { name: "Custom Earthware", meta: "Artisan Elements" },
+    { name: "Spatial Renders", meta: "Twinmotion 4K" },
     { name: "Native Flora Guide", meta: "Spec Sheet" },
   ]},
-  { title: "DesignX Pavilion", sub: "Departmental Curation", art: "ocean", seed: 14, files: [
-    { name: "Spatial Curation", meta: "Stage & Galleries", art: "electric" },
-    { name: "Wayfinding Grid", meta: "Signage & Print", art: "cobalt" },
+  { title: "DesignX Pavilion", sub: "Departmental Curation", art: "none", seed: 14, files: [
+    { name: "Spatial Curation", meta: "Stage & Galleries" },
+    { name: "Wayfinding Grid", meta: "Signage & Print" },
     { name: "Production Deck", meta: "Hospitality POC" },
     { name: "Event Retrospective", meta: "Photography" },
   ]},
