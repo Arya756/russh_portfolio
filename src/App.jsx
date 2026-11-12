@@ -252,7 +252,7 @@ export default function App() {
                   action="none"
                   appearDelay={i * 90}
                   width={250}
-                  folderColor="#0070FF"
+                  folderColor="#B49CDB"
                 />
               ))}
             </div>

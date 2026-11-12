@@ -380,7 +380,7 @@ export default function GlassFolder({
   meta,
   tone = "light",
   art = "none",
-  folderColor = "#0070FF",
+  folderColor = "#B49CDB",
   seed = 3,
   image,
   files: initialFiles = [],
@@ -406,7 +406,15 @@ export default function GlassFolder({
   const keyRef = React.useRef(null)
   const menuRef = React.useRef(null)
 
-  const [cr, cg, cb] = folderColor ? hexToRgb(folderColor) : [0, 112, 255]
+  const [cr, cg, cb] = folderColor ? hexToRgb(folderColor) : [180, 156, 219]
+  const lum = (0.299 * cr + 0.587 * cg + 0.114 * cb) / 255
+  const isLight = lum > 0.52
+
+  const backColor = `rgb(${Math.round(cr * 0.88)}, ${Math.round(cg * 0.88)}, ${Math.round(cb * 0.88)})`
+  const textColor = isLight ? "#241838" : "#ffffff"
+  const textSoft = isLight ? "rgba(36, 24, 56, 0.65)" : "rgba(255, 255, 255, 0.78)"
+  const shadowColor = isLight ? "rgba(40, 20, 70, 0.22)" : "rgba(0, 25, 70, 0.32)"
+  const rimColor = isLight ? "rgba(255, 255, 255, 0.45)" : "rgba(255, 255, 255, 0.2)"
 
   const [files, setFiles] = React.useState(initialFiles)
   const ids = React.useRef(initialFiles.map((_, i) => i))
@@ -535,6 +543,11 @@ export default function GlassFolder({
         ...(folderColor ? {
           "--gf-color": folderColor,
           "--gf-color-rgb": `${cr}, ${cg}, ${cb}`,
+          "--gf-back-color": backColor,
+          "--gf-text-color": textColor,
+          "--gf-text-soft": textSoft,
+          "--gf-shadow-color": shadowColor,
+          "--gf-rim-color": rimColor,
         } : {}),
         ...style,
       }}
@@ -720,7 +733,7 @@ const GF_CSS = `
   isolation: isolate;
 }
 .gf-root[data-tone="dark"] { --gf-ink: #fbf7ee; --gf-ink-soft: rgba(251, 247, 238, .58); }
-.gf-root[data-color] { --gf-ink: #ffffff; --gf-ink-soft: rgba(255, 255, 255, .82); }
+.gf-root[data-color] { --gf-ink: var(--gf-text-color, #241838); --gf-ink-soft: var(--gf-text-soft, rgba(36, 24, 56, .65)); }
 .gf-root:hover, .gf-root:focus-within { --gf-hinge: -11deg; --gf-lift: -34px; --gf-spread: 8px; --gf-fan: 1.4deg; --gf-stack: 10px; }
 .gf-root[data-open] { --gf-hinge: -24deg; --gf-lift: -96px; --gf-spread: 40px; --gf-fan: 5deg; --gf-stack: 30px; }
 
@@ -743,16 +756,16 @@ const GF_CSS = `
   transform: translateX(calc(var(--gf-px) * -8px));
   transition: transform .9s var(--gf-ease), opacity .9s var(--gf-ease);
 }
-.gf-root[data-color] .gf-shadow { background: rgba(0, 25, 70, .32); filter: blur(20px); }
+.gf-root[data-color] .gf-shadow { background: var(--gf-shadow-color, rgba(40, 20, 70, .22)); filter: blur(20px); }
 
 .gf-back {
   position: absolute; inset: 0; overflow: hidden;
   background: linear-gradient(180deg, #f3ecdc 0%, #e4d9c1 100%);
 }
 .gf-root[data-tone="dark"] .gf-back { background: linear-gradient(180deg, #2a2a2e 0%, #121214 100%); }
-.gf-root[data-color] .gf-back { background: #005fdf; }
+.gf-root[data-color] .gf-back { background: var(--gf-back-color, #9E89C1); }
 .gf-root[data-color] .gf-back-sheen { display: none; }
-.gf-root[data-color] .gf-back-rim path { stroke: rgba(255, 255, 255, 0.15); stroke-width: 1; }
+.gf-root[data-color] .gf-back-rim path { stroke: var(--gf-rim-color, rgba(255, 255, 255, 0.3)); stroke-width: 1; }
 .gf-art {
   position: absolute; left: -12px; top: -12px;
   max-width: none; object-fit: cover;
@@ -846,7 +859,7 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
 .gf-root[data-color] .gf-front {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  box-shadow: 0 -2px 14px rgba(0, 25, 70, 0.2), 0 8px 24px rgba(0, 25, 70, 0.28);
+  box-shadow: 0 -2px 14px var(--gf-shadow-color, rgba(40, 20, 70, 0.15)), 0 8px 24px var(--gf-shadow-color, rgba(40, 20, 70, 0.22));
 }
 .gf-front--bump { animation: gf-bump .7s var(--gf-ease) .38s both; }
 @keyframes gf-bump {
@@ -860,7 +873,7 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
   background: linear-gradient(180deg, rgba(18,18,20,.18) 0%, rgba(14,14,16,.62) 46%, rgba(8,8,10,.94) 100%);
 }
 .gf-root[data-color] .gf-tint {
-  background: #0070FF;
+  background: var(--gf-color, #B49CDB);
 }
 .gf-spec {
   position: absolute; inset: 0;
@@ -872,7 +885,7 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
 .gf-root[data-color] .gf-spec { display: none; }
 .gf-front-rim { width: 340px; height: 198px; }
 .gf-front-rim path { stroke-width: 2.4; transition: stroke-width .3s var(--gf-ease); }
-.gf-root[data-color] .gf-front-rim path { stroke: rgba(255, 255, 255, 0.2); stroke-width: 1.2; }
+.gf-root[data-color] .gf-front-rim path { stroke: var(--gf-rim-color, rgba(255, 255, 255, 0.45)); stroke-width: 1.2; }
 
 .gf-hit { all: unset; position: absolute; inset: 0; z-index: 1; cursor: pointer; }
 .gf-hit:focus-visible ~ .gf-label .gf-title { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
