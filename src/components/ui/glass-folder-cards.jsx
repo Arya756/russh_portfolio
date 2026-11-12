@@ -380,7 +380,7 @@ export default function GlassFolder({
   meta,
   tone = "light",
   art = "none",
-  folderColor = "#B49CDB",
+  folderColor = "#ffee9b ",
   seed = 3,
   image,
   files: initialFiles = [],
@@ -472,7 +472,8 @@ export default function GlassFolder({
     return () => { el.removeEventListener("pointermove", move); el.removeEventListener("pointerleave", leave); cancelAnimationFrame(raf) }
   }, [])
 
-  React.useEffect(() => { filesRef.current?.toggleAttribute("inert", !open) }, [open])
+  // Keep files interactive so sheets can be clicked both when peeking and when fanned out
+  // React.useEffect(() => { filesRef.current?.toggleAttribute("inert", !open) }, [open])
 
   React.useEffect(() => {
     if (!open && !menuOpen) return
@@ -649,9 +650,30 @@ export default function GlassFolder({
               return (
                 <div key={id} role="listitem" className="gf-sheet-slot">
                   {file.href ? (
-                    <a {...common} href={file.href} onClick={() => onFileSelect?.(file, start + v)}>{inner}</a>
+                    <a
+                      {...common}
+                      href={file.href}
+                      onClick={(e) => {
+                        if (onFileSelect) {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          onFileSelect(file, start + v, label)
+                        }
+                      }}
+                    >
+                      {inner}
+                    </a>
                   ) : (
-                    <button {...common} type="button" onClick={() => onFileSelect?.(file, start + v)}>{inner}</button>
+                    <button
+                      {...common}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        onFileSelect?.(file, start + v, label)
+                      }}
+                    >
+                      {inner}
+                    </button>
                   )}
                 </div>
               )
@@ -873,7 +895,7 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
   background: linear-gradient(180deg, rgba(18,18,20,.18) 0%, rgba(14,14,16,.62) 46%, rgba(8,8,10,.94) 100%);
 }
 .gf-root[data-color] .gf-tint {
-  background: var(--gf-color, #B49CDB);
+  background: var(--gf-color, #ffee9b );
 }
 .gf-spec {
   position: absolute; inset: 0;

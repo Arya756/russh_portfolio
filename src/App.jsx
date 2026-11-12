@@ -4,42 +4,78 @@ import GlassFolder from './components/ui/glass-folder-cards'
 import LanyardBadge from './components/ui/lanyard-badge'
 
 const PROJECTS = [
-  { title: "Helioshield", sub: "Godrej Design Lab · 6th rank", art: "none", seed: 42, files: [
-    { name: "System Overview", meta: "Façade Mechanism", href: "#helioshield" },
-    { name: "Panel Fabrication", meta: "Modular Detail", href: "#helioshield" },
-    { name: "Solar Simulation", meta: "Daylight Studies", href: "#helioshield" },
-    { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", href: "#helioshield" },
-  ]},
-  { title: "Spatial Intervention", sub: "Studio 02 · Academic", art: "none", seed: 19, files: [
-    { name: "Site Mapping", meta: "Circulation Flow" },
-    { name: "Zoning & Section", meta: "Scale 1:50" },
-    { name: "Physical Scale Model", meta: "Basswood & Acrylic" },
-    { name: "Studio Review.pdf", meta: "PDF · 5.2 MB" },
-  ]},
-  { title: "Adaptive Reuse", sub: "Year 2 · Interior Arch", art: "none", seed: 7, files: [
-    { name: "Heritage Envelope", meta: "Structural Retention" },
-    { name: "Interior Joinery", meta: "Custom Millwork" },
-    { name: "Atmospheric Lighting", meta: "Lux Calculations" },
-    { name: "Material Board", meta: "16 Finishes" },
-  ]},
-  { title: "Mio Emotion Fest", sub: "Exhibition & Stall Design", art: "none", seed: 23, files: [
-    { name: "Stall Spatial Plan", meta: "Visitor Flow" },
-    { name: "Visual Identity", meta: "Graphics & Signage" },
-    { name: "Fabrication Specs", meta: "Modular Framing" },
-    { name: "Exhibition Renders", meta: "3D View" },
-  ]},
-  { title: "Biophilic Sanctuary", sub: "Residential Concept · 2025", art: "none", seed: 88, files: [
-    { name: "Microclimate Court", meta: "Passive Cooling" },
-    { name: "Custom Earthware", meta: "Artisan Elements" },
-    { name: "Spatial Renders", meta: "Twinmotion 4K" },
-    { name: "Native Flora Guide", meta: "Spec Sheet" },
-  ]},
-  { title: "DesignX Pavilion", sub: "Departmental Curation", art: "none", seed: 14, files: [
-    { name: "Spatial Curation", meta: "Stage & Galleries" },
-    { name: "Wayfinding Grid", meta: "Signage & Print" },
-    { name: "Production Deck", meta: "Hospitality POC" },
-    { name: "Event Retrospective", meta: "Photography" },
-  ]},
+  {
+    title: "Helioshield",
+    sub: "Godrej Design Lab · 6th rank",
+    art: "none",
+    seed: 42,
+    files: [
+      { name: "System Overview", meta: "Façade Mechanism" },
+      { name: "Panel Fabrication", meta: "Modular Detail" },
+      { name: "Solar Simulation", meta: "Daylight Studies" },
+      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield.jpg" },
+    ],
+  },
+  {
+    title: "Spatial Intervention",
+    sub: "Studio 02 · Academic",
+    art: "none",
+    seed: 19,
+    files: [
+      { name: "Site Mapping", meta: "Circulation Flow" },
+      { name: "Zoning & Section", meta: "Scale 1:50" },
+      { name: "Physical Scale Model", meta: "Basswood & Acrylic" },
+      { name: "Studio Review.pdf", meta: "PDF · 5.2 MB", image: "/projects/spatial-intervention.jpg" },
+    ],
+  },
+  {
+    title: "Adaptive Reuse",
+    sub: "Year 2 · Interior Arch",
+    art: "none",
+    seed: 7,
+    files: [
+      { name: "Heritage Envelope", meta: "Structural Retention" },
+      { name: "Interior Joinery", meta: "Custom Millwork" },
+      { name: "Atmospheric Lighting", meta: "Lux Calculations" },
+      { name: "Material Board.pdf", meta: "PDF · 6.1 MB", image: "/projects/adaptive-reuse.jpg" },
+    ],
+  },
+  {
+    title: "Mio Emotion Fest",
+    sub: "Exhibition & Stall Design",
+    art: "none",
+    seed: 23,
+    files: [
+      { name: "Stall Spatial Plan", meta: "Visitor Flow" },
+      { name: "Visual Identity", meta: "Graphics & Signage" },
+      { name: "Fabrication Specs", meta: "Modular Framing" },
+      { name: "Exhibition Deck.pdf", meta: "PDF · 7.8 MB", image: "/projects/mio-emotion.jpg" },
+    ],
+  },
+  {
+    title: "Biophilic Sanctuary",
+    sub: "Residential Concept · 2025",
+    art: "none",
+    seed: 88,
+    files: [
+      { name: "Microclimate Court", meta: "Passive Cooling" },
+      { name: "Custom Earthware", meta: "Artisan Elements" },
+      { name: "Native Flora Guide", meta: "Spec Sheet" },
+      { name: "Spatial Renders.pdf", meta: "PDF · 9.5 MB", image: "/projects/biophilic-sanctuary.jpg" },
+    ],
+  },
+  {
+    title: "DesignX Pavilion",
+    sub: "Departmental Curation",
+    art: "none",
+    seed: 14,
+    files: [
+      { name: "Spatial Curation", meta: "Stage & Galleries" },
+      { name: "Wayfinding Grid", meta: "Signage & Print" },
+      { name: "Event Retrospective", meta: "Photography" },
+      { name: "Production Deck.pdf", meta: "PDF · 4.8 MB", image: "/projects/designx-pavilion.jpg" },
+    ],
+  },
 ]
 
 function getSectionScrollTop(id) {
@@ -128,9 +164,8 @@ function Navigation({ menuOpen, setMenuOpen }) {
           <span className={`absolute left-2 right-2 h-[1.5px] bg-ink transition-all ${menuOpen ? 'top-1/2 -rotate-45' : 'top-[1.55rem]'}`}></span>
         </button>
         <nav
-          className={`fixed inset-0 bg-ivory grid place-items-center transition-all z-[-1] md:static md:bg-ivory/60 md:backdrop-blur-md md:px-6 md:py-2 md:rounded-full md:border md:border-black/5 md:shadow-xs md:grid-none md:place-items-start md:z-auto ${
-            menuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible md:opacity-100 md:visible md:pointer-events-auto'
-          }`}
+          className={`fixed inset-0 bg-ivory grid place-items-center transition-all z-[-1] md:static md:bg-ivory/60 md:backdrop-blur-md md:px-6 md:py-2 md:rounded-full md:border md:border-black/5 md:shadow-xs md:grid-none md:place-items-start md:z-auto ${menuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible md:opacity-100 md:visible md:pointer-events-auto'
+            }`}
         >
           <ul className="list-none flex flex-col md:flex-row gap-6 md:gap-10 text-center">
             {['Home', 'About', 'CV', 'Projects', 'Contact'].map((l) => (
@@ -154,13 +189,115 @@ function Navigation({ menuOpen, setMenuOpen }) {
   )
 }
 
+function FilePreviewModal({ file, onClose }) {
+  const lenis = useLenis()
+
+  useEffect(() => {
+    if (lenis) lenis.stop()
+    const origOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      if (lenis) lenis.start()
+      document.body.style.overflow = origOverflow
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [lenis, onClose])
+
+  if (!file) return null
+
+  return (
+    <div
+      className="file-preview-backdrop"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={file.name}
+    >
+      <div className="file-preview-hblur" aria-hidden="true" />
+      <div
+        className="file-preview-card"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="file-preview-header">
+          <div className="flex items-center gap-3 min-w-0">
+            {file.projectTitle && (
+              <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#B49CDB]/20 text-[#B49CDB] border border-[#B49CDB]/30 font-medium">
+                {file.projectTitle}
+              </span>
+            )}
+            <div className="min-w-0">
+              <h3 className="font-sans text-sm md:text-base font-semibold text-ivory truncate m-0">
+                {file.name}
+              </h3>
+              {file.meta && (
+                <span className="font-mono text-xs text-ivory/60 block">
+                  {file.meta}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {file.image && (
+              <a
+                href={file.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="file-preview-action text-xs text-ivory/80 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/30 transition-all font-mono"
+                title="Open full resolution in new tab"
+              >
+                Full view ↗
+              </a>
+            )}
+            <button
+              onClick={onClose}
+              className="file-preview-close w-8 h-8 rounded-full grid place-items-center bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer text-sm"
+              aria-label="Close preview"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div className="file-preview-body">
+          {file.image ? (
+            <img
+              src={file.image}
+              alt={file.name}
+              className="file-preview-image"
+              loading="eager"
+            />
+          ) : (
+            <div className="p-12 text-center text-ivory">
+              <p className="text-lg">{file.name}</p>
+              <p className="text-sm text-ivory/60">{file.meta}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="file-preview-footer">
+          <span className="font-mono text-[11px] tracking-wider uppercase text-ivory/50">
+            Press ESC or click outside to close
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [previewFile, setPreviewFile] = useState(null)
 
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
       <SectionScrollEffects />
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
       <div className="min-h-screen">
         <main>
           <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F7F0E6', padding: 0 }}>
@@ -253,6 +390,9 @@ export default function App() {
                   appearDelay={i * 90}
                   width={250}
                   folderColor="#B49CDB"
+                  onFileSelect={(file, index, projectTitle) => {
+                    setPreviewFile({ ...file, projectTitle: projectTitle || p.title })
+                  }}
                 />
               ))}
             </div>
@@ -278,6 +418,133 @@ export default function App() {
           .btn-solid:hover { background:#35302a; border-color:#35302a; }
           .btn-outline { display:inline-block; font:400 .95rem "Jost",system-ui,sans-serif; letter-spacing:.04em; text-decoration:none; padding:.95rem 1.8rem; border:1px solid #576c31; background:none; color:#576c31; cursor:pointer; transition:background .3s,color .3s; }
           .btn-outline:hover { background:#678539; color:#fbf7ee; border-color:#678539; }
+
+          /* File Preview Modal with horizontal reveal and horizontal backdrop blur */
+          .file-preview-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(14, 10, 24, 0.78);
+            backdrop-filter: blur(28px) saturate(1.4);
+            -webkit-backdrop-filter: blur(28px) saturate(1.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(1rem, 3vw, 2.5rem);
+            animation: preview-backdrop-fade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+            isolation: isolate;
+            overflow: hidden;
+          }
+
+          @keyframes preview-backdrop-fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          /* Horizontal motion blur streak across the page */
+          .file-preview-hblur {
+            position: absolute;
+            inset-x: -15vw;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 65vh;
+            background: linear-gradient(
+              90deg,
+              transparent 0%,
+              rgba(180, 156, 219, 0.06) 15%,
+              rgba(180, 156, 219, 0.25) 50%,
+              rgba(180, 156, 219, 0.06) 85%,
+              transparent 100%
+            );
+            filter: blur(40px);
+            pointer-events: none;
+            animation: hblur-expand 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+          }
+
+          @keyframes hblur-expand {
+            0% {
+              transform: translateY(-50%) scaleX(0.08);
+              opacity: 0;
+            }
+            100% {
+              transform: translateY(-50%) scaleX(1);
+              opacity: 1;
+            }
+          }
+
+          .file-preview-card {
+            position: relative;
+            max-width: min(92vw, 1000px);
+            max-height: 92vh;
+            background: #191224;
+            border: 1px solid rgba(180, 156, 219, 0.35);
+            border-radius: 1.25rem;
+            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: file-reveal-horizontal 0.52s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transform-origin: center center;
+          }
+
+          @keyframes file-reveal-horizontal {
+            0% {
+              opacity: 0;
+              transform: scaleX(0.06) scaleY(0.7);
+              filter: blur(20px);
+              clip-path: inset(0 47% 0 47% round 24px);
+            }
+            40% {
+              opacity: 0.95;
+              filter: blur(4px);
+              clip-path: inset(0 12% 0 12% round 20px);
+            }
+            100% {
+              opacity: 1;
+              transform: scaleX(1) scaleY(1);
+              filter: blur(0px);
+              clip-path: inset(0 0% 0 0% round 1.25rem);
+            }
+          }
+
+          .file-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 1.25rem;
+            background: rgba(28, 20, 38, 0.96);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 2;
+          }
+
+          .file-preview-body {
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #120c1a;
+            max-height: calc(90vh - 110px);
+            padding: 0.5rem;
+          }
+
+          .file-preview-image {
+            max-height: calc(88vh - 120px);
+            max-width: min(85vw, 920px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 0.5rem;
+          }
+
+          .file-preview-footer {
+            padding: 0.55rem 1.25rem;
+            text-align: center;
+            background: rgba(20, 14, 28, 0.96);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+          }
         `}</style>
       </div>
     </ReactLenis>
