@@ -191,6 +191,7 @@ function Navigation({ menuOpen, setMenuOpen }) {
 
 function FilePreviewModal({ file, onClose }) {
   const lenis = useLenis()
+  const [zoomMode, setZoomMode] = useState('fit') // 'fit' (entire image visible) or 'zoom' (scrollable full-detail)
 
   useEffect(() => {
     if (!file) return
@@ -213,78 +214,112 @@ function FilePreviewModal({ file, onClose }) {
 
   return (
     <div
-      className="file-preview-backdrop"
+      className="file-preview-fullscreen"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={file.name}
     >
       <div className="file-preview-hblur" aria-hidden="true" />
+
+      {/* Floating Top Bar */}
       <div
-        className="file-preview-card"
+        className="file-preview-topbar"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="file-preview-header">
-          <div className="flex items-center gap-3 min-w-0">
-            {file.projectTitle && (
-              <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#ffee9b]/20 text-[#ffee9b] border border-[#ffee9b]/30 font-medium">
-                {file.projectTitle}
+        <div className="flex items-center gap-3 min-w-0">
+          {file.projectTitle && (
+            <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-3 py-1 rounded-full bg-[#ffee9b]/20 text-[#ffee9b] border border-[#ffee9b]/30 font-semibold shrink-0">
+              {file.projectTitle}
+            </span>
+          )}
+          <div className="min-w-0">
+            <h3 className="font-sans text-sm md:text-base font-semibold text-white truncate m-0">
+              {file.name}
+            </h3>
+            {file.meta && (
+              <span className="font-mono text-xs text-white/60 block">
+                {file.meta}
               </span>
             )}
-            <div className="min-w-0">
-              <h3 className="font-sans text-sm md:text-base font-semibold text-ivory truncate m-0">
-                {file.name}
-              </h3>
-              {file.meta && (
-                <span className="font-mono text-xs text-ivory/60 block">
-                  {file.meta}
-                </span>
-              )}
-            </div>
           </div>
-          <div className="flex items-center gap-2">
-            {file.image && (
-              <a
-                href={file.image}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="file-preview-action text-xs text-ivory/80 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/30 transition-all font-mono"
-                title="Open full resolution in new tab"
-              >
-                Full view ↗
-              </a>
-            )}
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          {file.image && (
             <button
-              onClick={onClose}
-              className="file-preview-close w-8 h-8 rounded-full grid place-items-center bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer text-sm"
-              aria-label="Close preview"
+              onClick={() => setZoomMode((m) => (m === 'fit' ? 'zoom' : 'fit'))}
+              className="file-preview-action text-xs text-white/90 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 transition-all font-mono cursor-pointer flex items-center gap-1.5"
+              title={zoomMode === 'fit' ? "Switch to scrollable full-detail view" : "Switch to fit-to-screen view"}
             >
-              ✕
+              {zoomMode === 'fit' ? (
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                  <span>100% Detail</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                  <span>Fit Screen</span>
+                </>
+              )}
             </button>
-          </div>
-        </div>
-
-        <div className="file-preview-body">
-          {file.image ? (
-            <img
-              src={file.image}
-              alt={file.name}
-              className="file-preview-image"
-              loading="eager"
-            />
-          ) : (
-            <div className="p-12 text-center text-ivory">
-              <p className="text-lg">{file.name}</p>
-              <p className="text-sm text-ivory/60">{file.meta}</p>
-            </div>
           )}
-        </div>
 
-        <div className="file-preview-footer">
-          <span className="font-mono text-[11px] tracking-wider uppercase text-ivory/50">
-            Press ESC or click outside to close
-          </span>
+          {file.image && (
+            <a
+              href={file.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="file-preview-action text-xs text-white/80 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 transition-all font-mono"
+              title="Open full resolution in new tab"
+            >
+              Full view ↗
+            </a>
+          )}
+
+          <button
+            onClick={onClose}
+            className="file-preview-close w-8 h-8 rounded-full grid place-items-center bg-white/15 hover:bg-white/30 text-white transition-colors cursor-pointer text-sm"
+            aria-label="Close preview"
+          >
+            ✕
+          </button>
         </div>
+      </div>
+
+      {/* Main Fullscreen Stage */}
+      <div
+        className={`file-preview-stage ${zoomMode === 'zoom' ? 'file-preview-stage--scroll' : 'file-preview-stage--fit'}`}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose()
+        }}
+      >
+        {file.image ? (
+          <img
+            src={file.image}
+            alt={file.name}
+            className={`file-preview-fullimage ${zoomMode === 'zoom' ? 'file-preview-fullimage--zoom' : 'file-preview-fullimage--fit'}`}
+            loading="eager"
+            onClick={(e) => {
+              e.stopPropagation()
+              setZoomMode((m) => (m === 'fit' ? 'zoom' : 'fit'))
+            }}
+            title="Click to toggle fit / 100% zoom"
+          />
+        ) : (
+          <div className="p-12 text-center text-ivory" onClick={(e) => e.stopPropagation()}>
+            <p className="text-xl font-semibold">{file.name}</p>
+            <p className="text-sm text-ivory/60 mt-1">{file.meta}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Bottom Hint */}
+      <div className="file-preview-bottombar pointer-events-none" aria-hidden="true">
+        <span className="font-mono text-[11px] tracking-wider uppercase text-white/50 bg-black/50 px-3.5 py-1.5 rounded-full backdrop-blur-md border border-white/10">
+          {zoomMode === 'fit' ? 'Click image or button to zoom · ESC to close' : 'Scroll to explore board · Click image to fit screen · ESC to close'}
+        </span>
       </div>
     </div>
   )
@@ -421,21 +456,21 @@ export default function App() {
           .btn-outline { display:inline-block; font:400 .95rem "Jost",system-ui,sans-serif; letter-spacing:.04em; text-decoration:none; padding:.95rem 1.8rem; border:1px solid #576c31; background:none; color:#576c31; cursor:pointer; transition:background .3s,color .3s; }
           .btn-outline:hover { background:#678539; color:#fbf7ee; border-color:#678539; }
 
-          /* File Preview Modal with horizontal reveal and horizontal backdrop blur */
-          .file-preview-backdrop {
+          /* Full Screen Lightbox Modal */
+          .file-preview-fullscreen {
             position: fixed;
             inset: 0;
-            z-index: 9999;
-            background: rgba(14, 10, 24, 0.78);
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            background: rgba(10, 7, 16, 0.94);
             backdrop-filter: blur(28px) saturate(1.4);
             -webkit-backdrop-filter: blur(28px) saturate(1.4);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: clamp(1rem, 3vw, 2.5rem);
-            animation: preview-backdrop-fade 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-            isolation: isolate;
+            flex-direction: column;
+            animation: preview-backdrop-fade 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
             overflow: hidden;
+            isolation: isolate;
           }
 
           @keyframes preview-backdrop-fade {
@@ -449,18 +484,18 @@ export default function App() {
             inset-x: -15vw;
             top: 50%;
             transform: translateY(-50%);
-            height: 65vh;
+            height: 70vh;
             background: linear-gradient(
               90deg,
               transparent 0%,
-              rgba(180, 156, 219, 0.06) 15%,
-              rgba(180, 156, 219, 0.25) 50%,
-              rgba(180, 156, 219, 0.06) 85%,
+              rgba(180, 156, 219, 0.05) 15%,
+              rgba(180, 156, 219, 0.22) 50%,
+              rgba(180, 156, 219, 0.05) 85%,
               transparent 100%
             );
-            filter: blur(40px);
+            filter: blur(48px);
             pointer-events: none;
-            animation: hblur-expand 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation: hblur-expand 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
           }
 
           @keyframes hblur-expand {
@@ -474,78 +509,92 @@ export default function App() {
             }
           }
 
-          .file-preview-card {
-            position: relative;
-            max-width: min(92vw, 1000px);
-            max-height: 92vh;
-            background: #191224;
-            border: 1px solid rgba(180, 156, 219, 0.35);
-            border-radius: 1.25rem;
-            box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            animation: file-reveal-horizontal 0.52s cubic-bezier(0.16, 1, 0.3, 1) both;
-            transform-origin: center center;
-          }
-
-          @keyframes file-reveal-horizontal {
-            0% {
-              opacity: 0;
-              transform: scaleX(0.06) scaleY(0.7);
-              filter: blur(20px);
-              clip-path: inset(0 47% 0 47% round 24px);
-            }
-            40% {
-              opacity: 0.95;
-              filter: blur(4px);
-              clip-path: inset(0 12% 0 12% round 20px);
-            }
-            100% {
-              opacity: 1;
-              transform: scaleX(1) scaleY(1);
-              filter: blur(0px);
-              clip-path: inset(0 0% 0 0% round 1.25rem);
-            }
-          }
-
-          .file-preview-header {
+          .file-preview-topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            padding: 0.9rem 1.25rem;
-            background: rgba(28, 20, 38, 0.96);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 2;
+            padding: 0 clamp(1rem, 3vw, 2.5rem);
+            background: linear-gradient(180deg, rgba(14, 10, 22, 0.92) 0%, rgba(14, 10, 22, 0.4) 70%, rgba(14, 10, 22, 0) 100%);
+            z-index: 20;
+            pointer-events: auto;
           }
 
-          .file-preview-body {
-            flex: 1;
-            overflow: auto;
+          .file-preview-stage {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #120c1a;
-            max-height: calc(90vh - 110px);
-            padding: 0.5rem;
+            padding: 68px clamp(1rem, 2.5vw, 2rem) 48px;
+            z-index: 10;
           }
 
-          .file-preview-image {
-            max-height: calc(88vh - 120px);
-            max-width: min(85vw, 920px);
+          .file-preview-stage--fit {
+            overflow: hidden;
+            cursor: zoom-in;
+          }
+
+          .file-preview-stage--scroll {
+            overflow-y: auto;
+            overflow-x: auto;
+            align-items: flex-start;
+            cursor: default;
+          }
+
+          .file-preview-fullimage {
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            animation: file-reveal-center 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: max-width 0.25s ease, max-height 0.25s ease;
+          }
+
+          @keyframes file-reveal-center {
+            0% {
+              opacity: 0;
+              transform: scale(0.92);
+              filter: blur(12px);
+            }
+            100% {
+              opacity: 1;
+              transform: scale(1);
+              filter: blur(0px);
+            }
+          }
+
+          /* In FIT mode: entire portrait or landscape image fits 100% in viewport without cropping */
+          .file-preview-fullimage--fit {
+            max-width: min(94vw, 1500px);
+            max-height: calc(100vh - 120px);
             width: auto;
             height: auto;
             object-fit: contain;
-            display: block;
-            border-radius: 0.5rem;
+            cursor: zoom-in;
           }
 
-          .file-preview-footer {
-            padding: 0.55rem 1.25rem;
-            text-align: center;
-            background: rgba(20, 14, 28, 0.96);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+          /* In ZOOM/SCROLL mode: allows natural scrolling down tall boards like competition posters */
+          .file-preview-fullimage--zoom {
+            max-width: min(92vw, 1100px);
+            width: 100%;
+            height: auto;
+            margin: 1.5rem auto 3.5rem;
+            cursor: zoom-out;
+          }
+
+          .file-preview-bottombar {
+            position: fixed;
+            bottom: 1rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 20;
           }
         `}</style>
       </div>
