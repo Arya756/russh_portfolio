@@ -193,6 +193,7 @@ function FilePreviewModal({ file, onClose }) {
   const lenis = useLenis()
 
   useEffect(() => {
+    if (!file) return
     if (lenis) lenis.stop()
     const origOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -206,7 +207,7 @@ function FilePreviewModal({ file, onClose }) {
       document.body.style.overflow = origOverflow
       window.removeEventListener('keydown', onKey)
     }
-  }, [lenis, onClose])
+  }, [file, lenis, onClose])
 
   if (!file) return null
 
@@ -297,7 +298,7 @@ export default function App() {
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
       <SectionScrollEffects />
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />
+      {previewFile && <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />}
       <div className="min-h-screen">
         <main>
           <section id="home" className="sticky-section z-0 min-h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#F7F0E6', padding: 0 }}>
