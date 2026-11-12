@@ -13,7 +13,7 @@ const PROJECTS = [
       { name: "System Overview", meta: "Façade Mechanism" },
       { name: "Panel Fabrication", meta: "Modular Detail" },
       { name: "Solar Simulation", meta: "Daylight Studies" },
-      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield.jpg" },
+      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield/board.jpg" },
     ],
   },
   {
@@ -386,6 +386,7 @@ export default function App() {
                   meta={p.sub}
                   art={p.art}
                   seed={p.seed}
+                  image={p.image}
                   files={p.files}
                   action="none"
                   appearDelay={i * 90}

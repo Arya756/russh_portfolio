@@ -839,7 +839,7 @@ canvas.gf-art[data-ready] { opacity: 1; filter: none; }
 .gf-root[data-color] .gf-sheet:focus-visible { outline-color: #0070FF; }
 .gf-sheet-art {
   position: absolute; left: 0; top: 0; width: 272px; height: 184px;
-  max-width: none; object-fit: cover;
+  max-width: none; object-fit: cover; object-position: top center;
   transition: opacity .9s var(--gf-ease), filter .9s var(--gf-ease);
 }
 canvas.gf-sheet-art { opacity: 0; filter: blur(10px); }
