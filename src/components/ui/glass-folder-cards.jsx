@@ -60,6 +60,37 @@ export const ART_PRESETS = {
     colors: ["#fbf7ee", "#eddcd2", "#d8b49c", "#b67a57", "#874d32", "#522b1b", "#35302a"],
     scale: 0.7, warp: 1.8, angle: -0.3, gloss: 0.25, veins: 0,
   },
+  // #0070FF blue presets
+  blue: {
+    style: "marble",
+    colors: ["#0044cc", "#005ce6", "#0070FF", "#2487ff", "#52a3ff", "#a3cdff", "#0070FF"],
+    scale: 0.68, warp: 3.2, angle: 0.5, gloss: 0.5, veins: 0.25,
+  },
+  azure: {
+    style: "streak",
+    colors: ["#a3cdff", "#52a3ff", "#2487ff", "#0070FF", "#005ce6", "#0044cc"],
+    scale: 0.7, warp: 1.6, angle: 0.35, gloss: 0.35, veins: 0,
+  },
+  cobalt: {
+    style: "marble",
+    colors: ["#003bb3", "#0052cc", "#0070FF", "#338fff", "#70b2ff", "#c2deff"],
+    scale: 0.7, warp: 3.4, angle: 1.1, gloss: 0.45, veins: 0.3,
+  },
+  electric: {
+    style: "streak",
+    colors: ["#c2deff", "#70b2ff", "#338fff", "#0070FF", "#005ce6", "#003bb3"],
+    scale: 0.72, warp: 1.8, angle: -0.3, gloss: 0.3, veins: 0,
+  },
+  sapphire: {
+    style: "marble",
+    colors: ["#0040d9", "#005ae6", "#0070FF", "#3892ff", "#75b4ff", "#b8d7ff"],
+    scale: 0.65, warp: 3.0, angle: -0.4, gloss: 0.48, veins: 0.25,
+  },
+  ocean: {
+    style: "streak",
+    colors: ["#b8d7ff", "#75b4ff", "#3892ff", "#0070FF", "#005ae6", "#0040d9"],
+    scale: 0.7, warp: 1.5, angle: 0.25, gloss: 0.25, veins: 0,
+  },
 }
 
 export function hexToRgb(hex) {
@@ -348,7 +379,8 @@ export default function GlassFolder({
   label = "My Files",
   meta,
   tone = "light",
-  art = "sage",
+  art = "blue",
+  folderColor = "#0070FF",
   seed = 3,
   image,
   files: initialFiles = [],
@@ -373,6 +405,8 @@ export default function GlassFolder({
   const hitRef = React.useRef(null)
   const keyRef = React.useRef(null)
   const menuRef = React.useRef(null)
+
+  const [cr, cg, cb] = folderColor ? hexToRgb(folderColor) : [0, 112, 255]
 
   const [files, setFiles] = React.useState(initialFiles)
   const ids = React.useRef(initialFiles.map((_, i) => i))
@@ -490,11 +524,20 @@ export default function GlassFolder({
     <div
       ref={rootRef}
       className={"gf-root" + (className ? " " + className : "")}
-      data-tone={tone}
+      data-tone={folderColor ? "dark" : tone}
+      data-color={folderColor || undefined}
       data-open={open || undefined}
       data-entered={entered || undefined}
       data-place={labelPlacement}
-      style={{ width, height: (H + HEADROOM) * k, ...style }}
+      style={{
+        width,
+        height: (H + HEADROOM) * k,
+        ...(folderColor ? {
+          "--gf-color": folderColor,
+          "--gf-color-rgb": `${cr}, ${cg}, ${cb}`,
+        } : {}),
+        ...style,
+      }}
     >
       <style>{GF_CSS}</style>
       <div className="gf-stage" style={{ transform: "translateY(" + HEADROOM * k + "px) scale(" + k + ")" }}>
@@ -677,6 +720,7 @@ const GF_CSS = `
   isolation: isolate;
 }
 .gf-root[data-tone="dark"] { --gf-ink: #fbf7ee; --gf-ink-soft: rgba(251, 247, 238, .58); }
+.gf-root[data-color] { --gf-ink: #ffffff; --gf-ink-soft: rgba(255, 255, 255, .82); }
 .gf-root:hover, .gf-root:focus-within { --gf-hinge: -11deg; --gf-lift: -34px; --gf-spread: 8px; --gf-fan: 1.4deg; --gf-stack: 10px; }
 .gf-root[data-open] { --gf-hinge: -24deg; --gf-lift: -96px; --gf-spread: 40px; --gf-fan: 5deg; --gf-stack: 30px; }
 
@@ -699,12 +743,14 @@ const GF_CSS = `
   transform: translateX(calc(var(--gf-px) * -8px));
   transition: transform .9s var(--gf-ease), opacity .9s var(--gf-ease);
 }
+.gf-root[data-color] .gf-shadow { background: rgba(0, 32, 96, .38); }
 
 .gf-back {
   position: absolute; inset: 0; overflow: hidden;
   background: linear-gradient(180deg, #f3ecdc 0%, #e4d9c1 100%);
 }
 .gf-root[data-tone="dark"] .gf-back { background: linear-gradient(180deg, #2a2a2e 0%, #121214 100%); }
+.gf-root[data-color] .gf-back { background: linear-gradient(180deg, #0050cc 0%, #0070FF 100%); }
 .gf-art {
   position: absolute; left: -12px; top: -12px;
   max-width: none; object-fit: cover;
@@ -743,6 +789,7 @@ canvas.gf-art[data-ready] { opacity: 1; filter: none; }
     rotate(calc(var(--gf-jr) + var(--gf-slot) * var(--gf-fan)));
   transition: transform .75s var(--gf-spring) calc(var(--gf-depth) * 40ms), box-shadow .4s var(--gf-ease), translate .9s var(--gf-ease), opacity .9s var(--gf-ease);
 }
+.gf-root[data-color] .gf-sheet { background: linear-gradient(180deg, #ffffff 0%, #f0f4f9 100%); }
 .gf-root[data-open] .gf-sheet:hover,
 .gf-root[data-open] .gf-sheet:focus-visible {
   transform:
@@ -752,6 +799,7 @@ canvas.gf-art[data-ready] { opacity: 1; filter: none; }
   transition-delay: 0s;
 }
 .gf-sheet:focus-visible { outline: 2px solid #678539; outline-offset: 2px; }
+.gf-root[data-color] .gf-sheet:focus-visible { outline-color: #0070FF; }
 .gf-sheet-art {
   position: absolute; left: 0; top: 0; width: 272px; height: 184px;
   max-width: none; object-fit: cover;
@@ -803,6 +851,14 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
 }
 .gf-root[data-tone="dark"] .gf-tint {
   background: linear-gradient(180deg, rgba(18,18,20,.18) 0%, rgba(14,14,16,.62) 46%, rgba(8,8,10,.94) 100%);
+}
+.gf-root[data-color] .gf-tint {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--gf-color-rgb, 0, 112, 255), 0.50) 0%,
+    rgba(var(--gf-color-rgb, 0, 112, 255), 0.82) 42%,
+    rgba(var(--gf-color-rgb, 0, 112, 255), 0.98) 100%
+  );
 }
 .gf-spec {
   position: absolute; inset: 0;

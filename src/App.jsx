@@ -4,39 +4,39 @@ import GlassFolder from './components/ui/glass-folder-cards'
 import LanyardBadge from './components/ui/lanyard-badge'
 
 const PROJECTS = [
-  { title: "Helioshield", sub: "Godrej Design Lab · 6th rank", art: "sage", seed: 42, files: [
-    { name: "System Overview", meta: "Façade Mechanism", art: "sage", href: "#helioshield" },
-    { name: "Panel Fabrication", meta: "Modular Detail", art: "olive", href: "#helioshield" },
-    { name: "Solar Simulation", meta: "Daylight Studies", art: "foliage", href: "#helioshield" },
+  { title: "Helioshield", sub: "Godrej Design Lab · 6th rank", art: "blue", seed: 42, files: [
+    { name: "System Overview", meta: "Façade Mechanism", art: "blue", href: "#helioshield" },
+    { name: "Panel Fabrication", meta: "Modular Detail", art: "azure", href: "#helioshield" },
+    { name: "Solar Simulation", meta: "Daylight Studies", art: "cobalt", href: "#helioshield" },
     { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", href: "#helioshield" },
   ]},
-  { title: "Spatial Intervention", sub: "Studio 02 · Academic", art: "olive", seed: 19, files: [
-    { name: "Site Mapping", meta: "Circulation Flow", art: "sand" },
-    { name: "Zoning & Section", meta: "Scale 1:50", art: "forest" },
+  { title: "Spatial Intervention", sub: "Studio 02 · Academic", art: "azure", seed: 19, files: [
+    { name: "Site Mapping", meta: "Circulation Flow", art: "electric" },
+    { name: "Zoning & Section", meta: "Scale 1:50", art: "sapphire" },
     { name: "Physical Scale Model", meta: "Basswood & Acrylic" },
     { name: "Studio Review.pdf", meta: "PDF · 5.2 MB" },
   ]},
-  { title: "Adaptive Reuse", sub: "Year 2 · Interior Arch", art: "clay", seed: 7, files: [
-    { name: "Heritage Envelope", meta: "Structural Retention", art: "clay" },
-    { name: "Interior Joinery", meta: "Custom Millwork", art: "sand" },
-    { name: "Atmospheric Lighting", meta: "Lux Calculations", art: "olive" },
+  { title: "Adaptive Reuse", sub: "Year 2 · Interior Arch", art: "cobalt", seed: 7, files: [
+    { name: "Heritage Envelope", meta: "Structural Retention", art: "ocean" },
+    { name: "Interior Joinery", meta: "Custom Millwork", art: "blue" },
+    { name: "Atmospheric Lighting", meta: "Lux Calculations", art: "azure" },
     { name: "Material Board", meta: "16 Finishes" },
   ]},
-  { title: "Mio Emotion Fest", sub: "Exhibition & Stall Design", art: "foliage", seed: 23, files: [
-    { name: "Stall Spatial Plan", meta: "Visitor Flow", art: "foliage" },
-    { name: "Visual Identity", meta: "Graphics & Signage", art: "sage" },
+  { title: "Mio Emotion Fest", sub: "Exhibition & Stall Design", art: "electric", seed: 23, files: [
+    { name: "Stall Spatial Plan", meta: "Visitor Flow", art: "cobalt" },
+    { name: "Visual Identity", meta: "Graphics & Signage", art: "sapphire" },
     { name: "Fabrication Specs", meta: "Modular Framing" },
     { name: "Exhibition Renders", meta: "3D View" },
   ]},
-  { title: "Biophilic Sanctuary", sub: "Residential Concept · 2025", art: "forest", seed: 88, files: [
-    { name: "Microclimate Court", meta: "Passive Cooling", art: "forest" },
-    { name: "Custom Earthware", meta: "Artisan Elements", art: "sand" },
-    { name: "Spatial Renders", meta: "Twinmotion 4K", art: "sage" },
+  { title: "Biophilic Sanctuary", sub: "Residential Concept · 2025", art: "sapphire", seed: 88, files: [
+    { name: "Microclimate Court", meta: "Passive Cooling", art: "ocean" },
+    { name: "Custom Earthware", meta: "Artisan Elements", art: "blue" },
+    { name: "Spatial Renders", meta: "Twinmotion 4K", art: "azure" },
     { name: "Native Flora Guide", meta: "Spec Sheet" },
   ]},
-  { title: "DesignX Pavilion", sub: "Departmental Curation", art: "sand", seed: 14, files: [
-    { name: "Spatial Curation", meta: "Stage & Galleries", art: "sand" },
-    { name: "Wayfinding Grid", meta: "Signage & Print", art: "clay" },
+  { title: "DesignX Pavilion", sub: "Departmental Curation", art: "ocean", seed: 14, files: [
+    { name: "Spatial Curation", meta: "Stage & Galleries", art: "electric" },
+    { name: "Wayfinding Grid", meta: "Signage & Print", art: "cobalt" },
     { name: "Production Deck", meta: "Hospitality POC" },
     { name: "Event Retrospective", meta: "Photography" },
   ]},
@@ -242,7 +242,18 @@ export default function App() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-7 justify-items-center mt-6">
               {PROJECTS.map((p, i) => (
-                <GlassFolder key={p.title} label={p.title} meta={p.sub} art={p.art} seed={p.seed} files={p.files} action="none" appearDelay={i * 90} width={250} />
+                <GlassFolder
+                  key={p.title}
+                  label={p.title}
+                  meta={p.sub}
+                  art={p.art}
+                  seed={p.seed}
+                  files={p.files}
+                  action="none"
+                  appearDelay={i * 90}
+                  width={250}
+                  folderColor="#0070FF"
+                />
               ))}
             </div>
           </section>
