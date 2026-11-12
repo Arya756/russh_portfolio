@@ -176,7 +176,7 @@ export default function App() {
             {/* Architectural drawing — same gutter so right edges align with text */}
             <div className="px-[clamp(2.5rem,8vw,8rem)]">
               <img
-                src="/arch-drawing.jpg"
+                src="/hero.jpg"
                 alt="Architectural section drawing"
                 className="w-full block"
                 style={{ mixBlendMode: 'multiply' }}
