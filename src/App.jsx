@@ -227,7 +227,7 @@ function FilePreviewModal({ file, onClose }) {
         <div className="file-preview-header">
           <div className="flex items-center gap-3 min-w-0">
             {file.projectTitle && (
-              <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#B49CDB]/20 text-[#B49CDB] border border-[#B49CDB]/30 font-medium">
+              <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#ffee9b]/20 text-[#ffee9b] border border-[#ffee9b]/30 font-medium">
                 {file.projectTitle}
               </span>
             )}
@@ -390,7 +390,7 @@ export default function App() {
                   action="none"
                   appearDelay={i * 90}
                   width={250}
-                  folderColor="#B49CDB"
+                  folderColor="#ffee9b"
                   onFileSelect={(file, index, projectTitle) => {
                     setPreviewFile({ ...file, projectTitle: projectTitle || p.title })
                   }}
