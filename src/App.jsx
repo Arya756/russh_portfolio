@@ -205,8 +205,6 @@ function Navigation({ menuOpen, setMenuOpen }) {
 
 function FilePreviewModal({ file, onClose }) {
   const lenis = useLenis()
-  // Default to 'scroll' so tall portrait boards and documents can immediately be scrolled top-to-bottom
-  const [zoomMode, setZoomMode] = useState('scroll') // 'scroll' (full readable width) or 'fit' (fit entirely in window)
 
   useEffect(() => {
     if (!file) return
@@ -227,13 +225,6 @@ function FilePreviewModal({ file, onClose }) {
 
   if (!file) return null
 
-  // If user scrolls mousewheel while in 'fit' view, seamlessly transition to scrollable full size
-  const handleWheel = (e) => {
-    if (zoomMode === 'fit' && Math.abs(e.deltaY) > 6) {
-      setZoomMode('scroll')
-    }
-  }
-
   return (
     <div
       className="file-preview-fullscreen"
@@ -247,83 +238,14 @@ function FilePreviewModal({ file, onClose }) {
     >
       <div className="file-preview-hblur" aria-hidden="true" />
 
-      {/* Floating Top Bar */}
-      <div
-        className="file-preview-topbar"
-        onClick={(e) => e.stopPropagation()}
+      {/* Only the cut button in the top right */}
+      <button
+        onClick={onClose}
+        className="fixed top-5 right-5 z-50 w-11 h-11 rounded-full grid place-items-center bg-black/60 hover:bg-black/90 text-white/90 hover:text-white border border-white/20 transition-all cursor-pointer text-base shadow-2xl backdrop-blur-md"
+        aria-label="Close preview"
       >
-        <div className="flex items-center gap-3 min-w-0">
-          {file.projectTitle && (
-            <span className="file-preview-badge font-sans text-xs tracking-wider uppercase px-3 py-1 rounded-full bg-[#ffee9b]/20 text-[#ffee9b] border border-[#ffee9b]/30 font-semibold shrink-0">
-              {file.projectTitle}
-            </span>
-          )}
-          <div className="min-w-0">
-            <h3 className="font-sans text-sm md:text-base font-semibold text-white truncate m-0">
-              {file.name}
-            </h3>
-            {file.meta && (
-              <span className="font-mono text-xs text-white/60 block">
-                {file.meta}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          {file.image && (
-            <button
-              onClick={() => setZoomMode((m) => (m === 'fit' ? 'scroll' : 'fit'))}
-              className="file-preview-action text-xs text-white/95 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 hover:bg-white/15 transition-all font-mono cursor-pointer flex items-center gap-1.5 shadow-sm"
-              title={zoomMode === 'fit' ? "Expand for full readable width and smooth scrolling" : "Fit entire image onto screen"}
-            >
-              {zoomMode === 'fit' ? (
-                <>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
-                  <span>Scroll Full Size</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-                  <span>Fit Screen</span>
-                </>
-              )}
-            </button>
-          )}
-
-          {file.pdfUrl && (
-            <a
-              href={file.pdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="file-preview-action text-xs text-white/90 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 transition-all font-mono flex items-center gap-1.5"
-              title="Open full vector PDF in new tab"
-            >
-              <span>Open PDF ↗</span>
-            </a>
-          )}
-
-          {!file.pdfUrl && file.image && (
-            <a
-              href={file.image}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="file-preview-action text-xs text-white/80 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 transition-all font-mono"
-              title="Open full resolution in new tab"
-            >
-              Full view ↗
-            </a>
-          )}
-
-          <button
-            onClick={onClose}
-            className="file-preview-close w-8 h-8 rounded-full grid place-items-center bg-white/15 hover:bg-white/30 text-white transition-colors cursor-pointer text-sm"
-            aria-label="Close preview"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
+        ✕
+      </button>
 
       {/* Main Fullscreen Scroll Stage */}
       <div
@@ -331,7 +253,6 @@ function FilePreviewModal({ file, onClose }) {
         data-lenis-prevent="true"
         data-lenis-prevent-wheel="true"
         data-lenis-prevent-touch="true"
-        onWheel={handleWheel}
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose()
         }}
@@ -343,52 +264,26 @@ function FilePreviewModal({ file, onClose }) {
           }}
         >
           {file.pages && file.pages.length > 0 ? (
-            <div className="flex flex-col items-center gap-8 w-full max-w-[1200px] my-4">
+            <div className="flex flex-col items-center gap-8 w-full max-w-[1250px] my-6">
               {file.pages.map((pg, idx) => (
-                <div key={idx} className="flex flex-col items-center w-full">
-                  <img
-                    src={pg}
-                    alt={`${file.name} - Page ${idx + 1}`}
-                    className={`file-preview-fullimage ${zoomMode === 'fit' ? 'file-preview-fullimage--fit' : 'file-preview-fullimage--scroll'}`}
-                    loading={idx === 0 ? "eager" : "lazy"}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setZoomMode((m) => (m === 'fit' ? 'scroll' : 'fit'))
-                    }}
-                    title={zoomMode === 'fit' ? "Click to expand & scroll full size" : "Click to fit screen"}
-                  />
-                  <span className="text-white/40 text-[11px] font-mono mt-2">
-                    Page {idx + 1} of {file.pages.length}
-                  </span>
-                </div>
+                <img
+                  key={idx}
+                  src={pg}
+                  alt=""
+                  className="file-preview-fullimage file-preview-fullimage--scroll"
+                  loading={idx === 0 ? "eager" : "lazy"}
+                />
               ))}
             </div>
           ) : file.image ? (
             <img
               src={file.image}
-              alt={file.name}
-              className={`file-preview-fullimage ${zoomMode === 'fit' ? 'file-preview-fullimage--fit' : 'file-preview-fullimage--scroll'}`}
+              alt=""
+              className="file-preview-fullimage file-preview-fullimage--scroll my-6"
               loading="eager"
-              onClick={(e) => {
-                e.stopPropagation()
-                setZoomMode((m) => (m === 'fit' ? 'scroll' : 'fit'))
-              }}
-              title={zoomMode === 'fit' ? "Click to expand & scroll full size" : "Click to fit entire image on screen"}
             />
-          ) : (
-            <div className="p-12 text-center text-ivory" onClick={(e) => e.stopPropagation()}>
-              <p className="text-xl font-semibold">{file.name}</p>
-              <p className="text-sm text-ivory/60 mt-1">{file.meta}</p>
-            </div>
-          )}
+          ) : null}
         </div>
-      </div>
-
-      {/* Bottom Hint */}
-      <div className="file-preview-bottombar pointer-events-none" aria-hidden="true">
-        <span className="font-mono text-[11px] tracking-wider uppercase text-white/50 bg-black/60 px-3.5 py-1.5 rounded-full backdrop-blur-md border border-white/10 shadow-lg">
-          {zoomMode === 'fit' ? 'Scroll or click image to expand · ESC to close' : 'Scroll to explore board · Click image to fit screen · ESC to close'}
-        </span>
       </div>
     </div>
   )
@@ -578,22 +473,6 @@ export default function App() {
             }
           }
 
-          .file-preview-topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 0 clamp(1rem, 3vw, 2.5rem);
-            background: linear-gradient(180deg, rgba(14, 10, 22, 0.92) 0%, rgba(14, 10, 22, 0.4) 70%, rgba(14, 10, 22, 0) 100%);
-            z-index: 20;
-            pointer-events: auto;
-          }
-
           .file-preview-stage {
             position: absolute;
             inset: 0;
@@ -601,7 +480,7 @@ export default function App() {
             overflow-x: auto;
             overscroll-behavior: contain;
             -webkit-overflow-scrolling: touch;
-            padding: 76px clamp(1rem, 2.5vw, 2.5rem) 64px;
+            padding: 50px clamp(1rem, 3vw, 2.5rem) 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -641,7 +520,7 @@ export default function App() {
             border-radius: 8px;
             box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
             animation: file-reveal-center 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-            transition: max-width 0.25s ease, max-height 0.25s ease, transform 0.25s ease;
+            transition: max-width 0.25s ease, max-height 0.25s ease;
           }
 
           @keyframes file-reveal-center {
@@ -657,33 +536,12 @@ export default function App() {
             }
           }
 
-          /* In FIT mode: entire portrait or landscape image fits in viewport; clicking or scrolling expands */
-          .file-preview-fullimage--fit {
-            max-width: min(94vw, 1500px);
-            max-height: calc(100vh - 144px);
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            cursor: zoom-in;
-          }
-
-          /* In SCROLL mode: full readable width, naturally scrollable top-to-bottom */
+          /* Pure distraction-free full readable scroll */
           .file-preview-fullimage--scroll {
-            max-width: min(94vw, 1100px);
+            max-width: min(94vw, 1200px);
             width: 100%;
             height: auto;
-            margin: 0.5rem auto 2.5rem;
-            cursor: zoom-out;
-          }
-
-          .file-preview-bottombar {
-            position: fixed;
-            bottom: 1rem;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            z-index: 20;
+            margin: 0.5rem auto 2rem;
           }
         `}</style>
       </div>
