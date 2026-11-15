@@ -6,14 +6,28 @@ import LanyardBadge from './components/ui/lanyard-badge'
 const PROJECTS = [
   {
     title: "Space design & competition",
-    sub: "Godrej Design Lab · 6th rank",
+    sub: "Godrej Finalist · Residential",
     art: "none",
     seed: 42,
     files: [
       { name: "System Overview", meta: "Façade Mechanism" },
-      { name: "Panel Fabrication", meta: "Modular Detail" },
       { name: "Solar Simulation", meta: "Daylight Studies" },
-      { name: "Competition Deck.pdf", meta: "PDF · 8.4 MB", image: "/projects/helioshield/board.png" },
+      {
+        name: "Apartment No. 172.pdf",
+        meta: "Residential Design · 7 Pages",
+        image: "/projects/project-2/cover.jpg",
+        pdfUrl: "/projects/project-2/deck.pdf",
+        pages: [
+          "/projects/project-2/page-1.jpg",
+          "/projects/project-2/page-2.jpg",
+          "/projects/project-2/page-3.jpg",
+          "/projects/project-2/page-4.jpg",
+          "/projects/project-2/page-5.jpg",
+          "/projects/project-2/page-6.jpg",
+          "/projects/project-2/page-7.jpg",
+        ],
+      },
+      { name: "Competition Deck.pdf", meta: "Helioshield Façade · Finalist", image: "/projects/helioshield/board.png" },
     ],
   },
   {
@@ -277,7 +291,19 @@ function FilePreviewModal({ file, onClose }) {
             </button>
           )}
 
-          {file.image && (
+          {file.pdfUrl && (
+            <a
+              href={file.pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="file-preview-action text-xs text-white/90 hover:text-white px-3 py-1.5 rounded-lg border border-white/20 hover:border-white/50 bg-white/10 transition-all font-mono flex items-center gap-1.5"
+              title="Open full vector PDF in new tab"
+            >
+              <span>Open PDF ↗</span>
+            </a>
+          )}
+
+          {!file.pdfUrl && file.image && (
             <a
               href={file.image}
               target="_blank"
@@ -316,7 +342,28 @@ function FilePreviewModal({ file, onClose }) {
             if (e.target === e.currentTarget) onClose()
           }}
         >
-          {file.image ? (
+          {file.pages && file.pages.length > 0 ? (
+            <div className="flex flex-col items-center gap-8 w-full max-w-[1200px] my-4">
+              {file.pages.map((pg, idx) => (
+                <div key={idx} className="flex flex-col items-center w-full">
+                  <img
+                    src={pg}
+                    alt={`${file.name} - Page ${idx + 1}`}
+                    className={`file-preview-fullimage ${zoomMode === 'fit' ? 'file-preview-fullimage--fit' : 'file-preview-fullimage--scroll'}`}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setZoomMode((m) => (m === 'fit' ? 'scroll' : 'fit'))
+                    }}
+                    title={zoomMode === 'fit' ? "Click to expand & scroll full size" : "Click to fit screen"}
+                  />
+                  <span className="text-white/40 text-[11px] font-mono mt-2">
+                    Page {idx + 1} of {file.pages.length}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : file.image ? (
             <img
               src={file.image}
               alt={file.name}
