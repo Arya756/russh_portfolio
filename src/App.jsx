@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { ReactLenis, useLenis } from 'lenis/react'
 import GlassFolder from './components/ui/glass-folder-cards'
 import LanyardBadge from './components/ui/lanyard-badge'
+import DraftingCursor from './components/ui/drafting-cursor'
 
 const PROJECTS = [
   {
@@ -295,6 +296,7 @@ export default function App() {
 
   return (
     <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
+      <DraftingCursor />
       <SectionScrollEffects />
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       {previewFile && <FilePreviewModal file={previewFile} onClose={() => setPreviewFile(null)} />}
