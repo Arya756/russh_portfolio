@@ -95,15 +95,15 @@ export default function DraftingCursor() {
             height="48"
             fill="none"
           >
-            {/* Center target circle */}
-            <circle cx="24" cy="24" r="8" className="cad-svg-ring" />
-            <circle cx="24" cy="24" r="1.75" className="cad-svg-dot" />
+            {/* Center CAD pickbox square */}
+            <rect x="18" y="18" width="12" height="12" rx="0.5" className="cad-svg-box" />
+            <circle cx="24" cy="24" r="1.5" className="cad-svg-dot" />
 
-            {/* Crosshair lines with center gap for drafting precision */}
-            <line x1="2" y1="24" x2="14" y2="24" className="cad-svg-line" />
-            <line x1="34" y1="24" x2="46" y2="24" className="cad-svg-line" />
-            <line x1="24" y1="2" x2="24" y2="14" className="cad-svg-line" />
-            <line x1="24" y1="34" x2="24" y2="46" className="cad-svg-line" />
+            {/* Crosshair lines extending from the square pickbox */}
+            <line x1="2" y1="24" x2="18" y2="24" className="cad-svg-line" />
+            <line x1="30" y1="24" x2="46" y2="24" className="cad-svg-line" />
+            <line x1="24" y1="2" x2="24" y2="18" className="cad-svg-line" />
+            <line x1="24" y1="30" x2="24" y2="46" className="cad-svg-line" />
           </svg>
         </div>
 
@@ -168,10 +168,12 @@ export default function DraftingCursor() {
           stroke-linecap: square;
         }
 
-        .cad-svg-ring {
+        .cad-svg-box {
           stroke: #181424;
-          stroke-width: 1.25;
-          transition: r 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.2s ease;
+          stroke-width: 1.35;
+          fill: none;
+          transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease, stroke-width 0.2s ease;
+          transform-origin: 24px 24px;
         }
 
         .cad-svg-dot {
@@ -223,8 +225,8 @@ export default function DraftingCursor() {
           transform: scale(1.18);
         }
 
-        .cad-cursor[data-hover="true"] .cad-svg-ring {
-          r: 10;
+        .cad-cursor[data-hover="true"] .cad-svg-box {
+          transform: scale(1.25);
           stroke: #E4826A;
           stroke-width: 1.5;
         }
