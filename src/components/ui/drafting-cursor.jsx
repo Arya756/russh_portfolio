@@ -1,38 +1,34 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function DraftingCursor() {
   const cursorRef = useRef(null)
   const coordsRef = useRef(null)
-  const labelRef = useRef(null)
-  const pos = useRef({ x: -100, y: -100, targetX: -100, targetY: -100 })
-  const isHovering = useRef(false)
-  const isVisible = useRef(false)
-  const [enabled, setEnabled] = useState(false)
+  const tagRef = useRef(null)
 
   useEffect(() => {
-    // Only enable on non-touch devices with fine pointers
-    if (typeof window === 'undefined') return
-    const isFinePointer = window.matchMedia('(pointer: fine)').matches
-    if (!isFinePointer) return
-    setEnabled(true)
-
     const el = cursorRef.current
     if (!el) return
 
     let rafId = null
+    let mouseX = -100
+    let mouseY = -100
+    let currentX = -100
+    let currentY = -100
+    let isVisible = false
+    let isHovering = false
 
     const onMouseMove = (e) => {
-      pos.current.targetX = e.clientX
-      pos.current.targetY = e.clientY
+      mouseX = e.clientX
+      mouseY = e.clientY
 
-      if (!isVisible.current) {
-        isVisible.current = true
+      if (!isVisible) {
+        isVisible = true
+        currentX = mouseX
+        currentY = mouseY
         el.style.opacity = '1'
-        pos.current.x = e.clientX
-        pos.current.y = e.clientY
       }
 
-      // Check if hovering clickable / interactive target
+      // Check if hovering over clickable or interactive element
       const target = e.target
       const interactive = !!(
         target &&
@@ -40,46 +36,43 @@ export default function DraftingCursor() {
           window.getComputedStyle(target).cursor === 'pointer')
       )
 
-      if (interactive !== isHovering.current) {
-        isHovering.current = interactive
+      if (interactive !== isHovering) {
+        isHovering = interactive
         el.dataset.hover = interactive ? 'true' : 'false'
-        if (labelRef.current) {
-          labelRef.current.textContent = interactive ? 'SELECT' : ''
+        if (tagRef.current) {
+          tagRef.current.textContent = interactive ? 'SELECT' : ''
         }
       }
     }
 
     const onMouseLeave = () => {
-      isVisible.current = false
+      isVisible = false
       el.style.opacity = '0'
     }
 
     const onMouseEnter = () => {
-      isVisible.current = true
+      isVisible = true
       el.style.opacity = '1'
     }
 
-    const loop = () => {
-      // Smooth interpolation for coords, direct for crosshair
-      const p = pos.current
-      p.x += (p.targetX - p.x) * 0.4
-      p.y += (p.targetY - p.y) * 0.4
+    const render = () => {
+      // Smooth coordinate interpolation (60% lerp for snappy responsiveness)
+      currentX += (mouseX - currentX) * 0.65
+      currentY += (mouseY - currentY) * 0.65
 
-      el.style.transform = `translate3d(${p.targetX}px, ${p.targetY}px, 0)`
+      el.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`
 
-      if (coordsRef.current && isVisible.current) {
-        const xCoord = Math.round(p.targetX)
-        const yCoord = Math.round(p.targetY)
-        coordsRef.current.textContent = `${xCoord}, ${yCoord}`
+      if (coordsRef.current && isVisible) {
+        coordsRef.current.textContent = `${Math.round(mouseX)}, ${Math.round(mouseY)}`
       }
 
-      rafId = requestAnimationFrame(loop)
+      rafId = requestAnimationFrame(render)
     }
 
     window.addEventListener('mousemove', onMouseMove, { passive: true })
     document.addEventListener('mouseleave', onMouseLeave)
     document.addEventListener('mouseenter', onMouseEnter)
-    rafId = requestAnimationFrame(loop)
+    rafId = requestAnimationFrame(render)
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
@@ -89,33 +82,52 @@ export default function DraftingCursor() {
     }
   }, [])
 
-  if (!enabled) return null
-
   return (
     <>
-      <div ref={cursorRef} className="cad-cursor" style={{ opacity: 0 }} aria-hidden="true">
-        {/* Reticle / Crosshair */}
+      <div ref={cursorRef} className="cad-cursor" aria-hidden="true">
+        {/* Architectural Crosshair Reticle */}
         <div className="cad-crosshair">
-          <span className="cad-hair-h" />
-          <span className="cad-hair-v" />
-          <span className="cad-ring" />
-          <span className="cad-dot" />
+          {/* SVG for crisp, pixel-perfect rendering on retina screens */}
+          <svg
+            className="cad-reticle-svg"
+            viewBox="0 0 48 48"
+            width="48"
+            height="48"
+            fill="none"
+          >
+            {/* Center target circle */}
+            <circle cx="24" cy="24" r="8" className="cad-svg-ring" />
+            <circle cx="24" cy="24" r="1.75" className="cad-svg-dot" />
+
+            {/* Crosshair lines with center gap for drafting precision */}
+            <line x1="2" y1="24" x2="14" y2="24" className="cad-svg-line" />
+            <line x1="34" y1="24" x2="46" y2="24" className="cad-svg-line" />
+            <line x1="24" y1="2" x2="24" y2="14" className="cad-svg-line" />
+            <line x1="24" y1="34" x2="24" y2="46" className="cad-svg-line" />
+          </svg>
         </div>
 
-        {/* Trailing Coordinates HUD */}
+        {/* CAD Trailing Coordinates Badge */}
         <div className="cad-hud">
           <span className="cad-coords" ref={coordsRef}>
             0, 0
           </span>
-          <span className="cad-tag" ref={labelRef} />
+          <span className="cad-tag" ref={tagRef} />
         </div>
       </div>
 
       <style>{`
-        /* Hide system cursor on fine pointer devices */
-        @media (pointer: fine) {
-          body, a, button, input, textarea, select, [role="button"], .cursor-pointer {
+        /* Hide default OS cursor on non-touch screens */
+        @media (hover: hover) and (pointer: fine) {
+          *, *::before, *::after {
             cursor: none !important;
+          }
+        }
+
+        /* Hide custom CAD cursor on touchscreens / mobile */
+        @media (hover: none), (pointer: coarse) {
+          .cad-cursor {
+            display: none !important;
           }
         }
 
@@ -125,73 +137,48 @@ export default function DraftingCursor() {
           left: 0;
           z-index: 9999999;
           pointer-events: none;
-          mix-blend-mode: difference;
-          will-change: transform;
           user-select: none;
-          transition: opacity 0.2s ease;
+          opacity: 0;
+          transition: opacity 0.15s ease;
+          will-change: transform;
         }
 
-        /* The Crosshair Reticle centered on the exact cursor point */
+        /* Center the reticle exactly on the cursor tip */
         .cad-crosshair {
           position: absolute;
-          left: 0;
-          top: 0;
-          width: 0;
-          height: 0;
+          left: -24px;
+          top: -24px;
+          width: 48px;
+          height: 48px;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        /* Horizontal Hairline */
-        .cad-hair-h {
-          position: absolute;
-          left: -16px;
-          top: 0;
-          width: 32px;
-          height: 1px;
-          background: #ffffff;
-          transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        .cad-reticle-svg {
+          display: block;
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+          transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Vertical Hairline */
-        .cad-hair-v {
-          position: absolute;
-          top: -16px;
-          left: 0;
-          width: 1px;
-          height: 32px;
-          background: #ffffff;
-          transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1), top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        /* Hairlines with high contrast against both light and dark backgrounds */
+        .cad-svg-line {
+          stroke: #181424;
+          stroke-width: 1.5;
+          stroke-linecap: square;
         }
 
-        /* CAD Precision Ring */
-        .cad-ring {
-          position: absolute;
-          width: 18px;
-          height: 18px;
-          border: 1px solid rgba(255, 255, 255, 0.5);
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          left: 0;
-          top: 0;
-          transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+        .cad-svg-ring {
+          stroke: #181424;
+          stroke-width: 1.25;
+          transition: r 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.2s ease;
         }
 
-        /* Center Dot */
-        .cad-dot {
-          position: absolute;
-          width: 2.5px;
-          height: 2.5px;
-          background: #ffffff;
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          left: 0;
-          top: 0;
-          transition: opacity 0.2s ease;
+        .cad-svg-dot {
+          fill: #E4826A;
         }
 
-        /* CAD HUD Coordinates: Offset to bottom right of crosshair */
+        /* Trailing CAD HUD with Coordinates */
         .cad-hud {
           position: absolute;
           left: 14px;
@@ -199,55 +186,60 @@ export default function DraftingCursor() {
           display: flex;
           align-items: center;
           gap: 6px;
+          padding: 2.5px 6px;
+          background: rgba(22, 17, 30, 0.88);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 4px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           font-family: ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
           font-size: 9.5px;
           line-height: 1;
-          letter-spacing: 0.06em;
-          color: rgba(255, 255, 255, 0.75);
+          letter-spacing: 0.05em;
+          color: #ffee9b;
           white-space: nowrap;
           pointer-events: none;
         }
 
         .cad-coords {
           font-variant-numeric: tabular-nums;
+          font-weight: 500;
         }
 
         .cad-tag {
           font-size: 8.5px;
           font-weight: 700;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.08em;
           color: #ffffff;
-          background: rgba(255, 255, 255, 0.15);
-          padding: 1px 4px;
+          background: #E4826A;
+          padding: 1.5px 4.5px;
           border-radius: 2px;
-          opacity: 0;
-          transform: scale(0.85);
-          transition: opacity 0.18s ease, transform 0.18s ease;
+          display: none;
         }
 
-        /* Hover States when over clickable/interactive elements */
-        .cad-cursor[data-hover="true"] .cad-ring {
-          width: 32px;
-          height: 32px;
-          border-color: rgba(255, 255, 255, 0.95);
-          background: rgba(255, 255, 255, 0.08);
+        /* Interactive Hover State when hovering over cards, buttons, links */
+        .cad-cursor[data-hover="true"] .cad-reticle-svg {
+          transform: scale(1.18);
         }
 
-        .cad-cursor[data-hover="true"] .cad-hair-h {
-          width: 44px;
-          left: -22px;
-          background: #ffffff;
+        .cad-cursor[data-hover="true"] .cad-svg-ring {
+          r: 10;
+          stroke: #E4826A;
+          stroke-width: 1.5;
         }
 
-        .cad-cursor[data-hover="true"] .cad-hair-v {
-          height: 44px;
-          top: -22px;
-          background: #ffffff;
+        .cad-cursor[data-hover="true"] .cad-svg-line {
+          stroke: #E4826A;
+        }
+
+        .cad-cursor[data-hover="true"] .cad-hud {
+          border-color: rgba(228, 130, 106, 0.4);
+          background: rgba(22, 17, 30, 0.95);
         }
 
         .cad-cursor[data-hover="true"] .cad-tag {
-          opacity: 1;
-          transform: scale(1);
+          display: inline-block;
         }
       `}</style>
     </>
