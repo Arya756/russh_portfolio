@@ -5,7 +5,7 @@ import LanyardBadge from './components/ui/lanyard-badge'
 
 const PROJECTS = [
   {
-    title: "Helioshield",
+    title: "Space design & competition",
     sub: "Godrej Design Lab · 6th rank",
     art: "none",
     seed: 42,
@@ -17,7 +17,7 @@ const PROJECTS = [
     ],
   },
   {
-    title: "Spatial Intervention",
+    title: "Construction drawing",
     sub: "Studio 02 · Academic",
     art: "none",
     seed: 19,
@@ -29,7 +29,7 @@ const PROJECTS = [
     ],
   },
   {
-    title: "Adaptive Reuse",
+    title: "Furniture design",
     sub: "Year 2 · Interior Arch",
     art: "none",
     seed: 7,
@@ -41,7 +41,7 @@ const PROJECTS = [
     ],
   },
   {
-    title: "Mio Emotion Fest",
+    title: "Services",
     sub: "Exhibition & Stall Design",
     art: "none",
     seed: 23,
@@ -53,7 +53,7 @@ const PROJECTS = [
     ],
   },
   {
-    title: "Biophilic Sanctuary",
+    title: "Material exploration",
     sub: "Residential Concept · 2025",
     art: "none",
     seed: 88,
@@ -65,7 +65,7 @@ const PROJECTS = [
     ],
   },
   {
-    title: "DesignX Pavilion",
+    title: "Software exploration",
     sub: "Departmental Curation",
     art: "none",
     seed: 14,

@@ -915,12 +915,12 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
 
 .gf-label {
   position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 4px;
-  max-width: 200px; pointer-events: none; color: var(--gf-ink);
+  max-width: 276px; pointer-events: none; color: var(--gf-ink);
 }
 .gf-root[data-place="bottom-left"] .gf-label { left: 28px; bottom: 32px; }
 .gf-root[data-place="top-left"] .gf-label { left: 28px; top: 34px; }
 .gf-root[data-place="top-right"] .gf-label { right: 32px; top: 52px; align-items: flex-start; }
-.gf-title { font-size: 18px; font-weight: 500; line-height: 1.15; letter-spacing: -.012em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gf-title { font-size: 17px; font-weight: 500; line-height: 1.2; letter-spacing: -.012em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .gf-meta {
   font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px; letter-spacing: .03em; color: var(--gf-ink-soft); white-space: nowrap;
